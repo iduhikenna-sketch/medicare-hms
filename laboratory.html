@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratory Management | MediCare HMS</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <style>
+    :root {
+      --blue: #155eef;
+      --navy: #14213d;
+      --light: #f4f7fb;
+      --green: #138a55;
+      --red: #d92d20;
+      --border: #e2e8f0;
+      --text: #344054;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 20px;
+    }
+
+    .header-inner,
+    main {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 0;
+      color: #d0d9ee;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      background: #263653;
+      padding: 9px 12px;
+      border-radius: 7px;
+      font-size: 13px;
+    }
+
+    nav a.active {
+      background: var(--blue);
+    }
+
+    main {
+      padding: 22px 16px 45px;
+    }
+
+    .notice {
+      padding: 12px 14px;
+      background: #eff8ff;
+      color: #175cd3;
+      border: 1px solid #b2ddff;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .stat,
+    .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 2px 5px #10182808;
+    }
+
+    .stat {
+      padding: 18px;
+    }
+
+    .stat span {
+      display: block;
+      font-size: 13px;
+      color: #667085;
+      margin-bottom: 8px;
+    }
+
+    .stat strong {
+      font-size: 27px;
+      color: var(--navy);
+    }
+
+    .panel {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .panel h2 {
+      font-size: 19px;
+      margin: 0 0 18px;
+      color: var(--navy);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select,
+    textarea {
+      display: block;
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #d0d5dd;
+      border-radius: 7px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    button {
+      border: 0;
+      border-radius: 7px;
+      background: var(--blue);
+      color: white;
+      padding: 11px 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    button.secondary {
+      background: #475467;
+    }
+
+    button.danger {
+      background: var(--red);
+    }
+
+    button.small {
+      padding: 7px 9px;
+      margin: 2px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 17px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f9fafb;
+      color: #475467;
+      white-space: nowrap;
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 20px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      background: #f2f4f7;
+      color: #344054;
+    }
+
+    .badge.pending {
+      background: #fff4e5;
+      color: #93370d;
+    }
+
+    .badge.progress {
+      background: #eff8ff;
+      color: #175cd3;
+    }
+
+    .badge.complete {
+      background: #ecfdf3;
+      color: #027a48;
+    }
+
+    .badge.cancelled {
+      background: #fef3f2;
+      color: #b42318;
+    }
+
+    .muted {
+      color: #667085;
+      font-size: 13px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #message {
+      position: sticky;
+      top: 8px;
+      z-index: 5;
+      margin-bottom: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+      overflow-wrap: anywhere;
+    }
+
+    #message.success {
+      display: block;
+      background: #ecfdf3;
+      color: #027a48;
+      border: 1px solid #abefc6;
+    }
+
+    #message.error {
+      display: block;
+      background: #fef3f2;
+      color: #b42318;
+      border: 1px solid #fecdca;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+    }
+
+    .search {
+      max-width: 300px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      color: #667085;
+      font-size: 12px;
+    }
+
+    @media (max-width: 750px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .panel {
+        padding: 15px;
+      }
+
+      header h1 {
+        font-size: 21px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <h1>🧪 MediCare Laboratory</h1>
+    <p>Laboratory tests, patient requests and results management</p>
+
+    <nav>
+      <a href="admin-dashboard.html">Dashboard</a>
+      <a href="patients.html">Patients</a>
+      <a href="appointments.html">Appointments</a>
+      <a href="staff.html">Staff</a>
+      <a href="pharmacy.html">Pharmacy</a>
+      <a class="active" href="laboratory.html">Laboratory</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div id="message" role="status" aria-live="polite"></div>
+
+  <div class="notice">
+    <strong>Administrator workspace:</strong>
+    Laboratory records are available to authenticated administrators.
+    Use fictional patient information for testing.
+  </div>
+
+  <section class="stats">
+    <div class="stat">
+      <span>Active Test Types</span>
+      <strong id="statTests">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>Total Requests</span>
+      <strong id="statRequests">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>Pending / Collection</span>
+      <strong id="statPending">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>Completed</span>
+      <strong id="statCompleted">0</strong>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 id="testFormTitle">Add Laboratory Test</h2>
+
+    <form id="testForm">
+      <input type="hidden" id="testId">
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="testCode">Test Code *</label>
+          <input id="testCode" required maxlength="50"
+                 placeholder="e.g. LAB-FBC-001">
+        </div>
+
+        <div class="field">
+          <label for="testName">Test Name *</label>
+          <input id="testName" required maxlength="150"
+                 placeholder="e.g. Full Blood Count">
+        </div>
+
+        <div class="field">
+          <label for="testCategory">Category *</label>
+          <select id="testCategory" required>
+            <option value="">Select category</option>
+            <option>Haematology</option>
+            <option>Biochemistry</option>
+            <option>Microbiology</option>
+            <option>Immunology</option>
+            <option>Parasitology</option>
+            <option>Urinalysis</option>
+            <option>Radiology</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="testPrice">Price (₦) *</label>
+          <input id="testPrice" type="number" min="0" step="0.01"
+                 required value="0">
+        </div>
+
+        <div class="field full">
+          <label for="testDescription">Description (optional)</label>
+          <textarea id="testDescription"
+                    placeholder="Describe the test or preparation instructions"></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="saveTestButton" type="submit">Save Laboratory Test</button>
+        <button type="button" class="secondary hidden"
+                id="cancelTestEdit">Cancel Edit</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <h2>Laboratory Test Catalogue</h2>
+      <input class="search" id="testSearch"
+             placeholder="Search tests...">
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Test Code</th>
+            <th>Test Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="testsTable">
+          <tr><td colspan="6">Loading tests...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 id="requestFormTitle">Register Patient Test Request</h2>
+
+    <form id="requestForm">
+      <input type="hidden" id="requestId">
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="patientNumber">Registered Patient Number *</label>
+          <input id="patientNumber" required
+                 placeholder="Enter patient number">
+          <p class="muted" id="patientLookupMessage">
+            Enter the patient number exactly as registered.
+          </p>
+        </div>
+
+        <div class="field">
+          <label for="requestTest">Laboratory Test *</label>
+          <select id="requestTest" required>
+            <option value="">Choose an active test</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="sampleType">Sample Type</label>
+          <select id="sampleType">
+            <option value="">Not specified</option>
+            <option>Blood</option>
+            <option>Urine</option>
+            <option>Stool</option>
+            <option>Sputum</option>
+            <option>Swab</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="orderedBy">Ordered By</label>
+          <input id="orderedBy" maxlength="150"
+                 placeholder="Doctor or staff name">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="saveRequestButton" type="submit">
+          Create Test Request
+        </button>
+        <button type="button" class="secondary hidden"
+                id="cancelRequestEdit">Cancel Edit</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <h2>Patient Test Requests & Results</h2>
+      <input class="search" id="requestSearch"
+             placeholder="Search requests or patients...">
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Request Number</th>
+            <th>Patient</th>
+            <th>Test</th>
+            <th>Requested</th>
+            <th>Status</th>
+            <th>Result</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="requestsTable">
+          <tr><td colspan="7">Loading requests...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="muted">
+    Clinical safety: laboratory results must be entered and verified by
+    qualified laboratory personnel. This page is a management tool and does
+    not interpret results or replace professional medical judgement.
+  </p>
+</main>
+
+<footer>
+  MediCare Hospital Management System · Laboratory Module
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const db = window.medicareSupabase;
+
+  const $ = id => document.getElementById(id);
+
+  let tests = [];
+  let requests = [];
+  let patients = [];
+  let patientById = new Map();
+  let testById = new Map();
+  let messageTimer;
+
+  function showMessage(text, type = "success") {
+    const box = $("message");
+    box.textContent = text;
+    box.className = type;
+
+    clearTimeout(messageTimer);
+    messageTimer = setTimeout(() => {
+      box.className = "";
+      box.textContent = "";
+    }, 6500);
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]);
+  }
+
+  function money(value) {
+    return "₦" + Number(value || 0).toLocaleString("en-NG", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  function dateText(value) {
+    if (!value) return "—";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+      ? "—"
+      : date.toLocaleString("en-NG", {
+          dateStyle: "medium",
+          timeStyle: "short"
+        });
+  }
+
+  function statusClass(status) {
+    if (status === "Completed") return "complete";
+    if (status === "Cancelled") return "cancelled";
+    if (status === "In Progress" || status === "Sample Collected") {
+      return "progress";
+    }
+    return "pending";
+  }
+
+  function makeRequestNumber() {
+    const date = new Date();
+    const stamp =
+      date.getFullYear().toString() +
+      String(date.getMonth() + 1).padStart(2, "0") +
+      String(date.getDate()).padStart(2, "0");
+
+    const random = Math.random().toString(36).slice(2, 8).toUpperCase();
+
+    return "MCH-LAB-" + stamp + "-" + random;
+  }
+
+  async function requireAdmin() {
+    if (!db) {
+      throw new Error(
+        "Supabase did not load. Check supabase-config.js and reload this page."
+      );
+    }
+
+    const { data, error } = await db.auth.getSession();
+
+    if (error) throw error;
+
+    const session = data.session;
+
+    if (!session) {
+      window.location.replace("login.html");
+      return false;
+    }
+
+    const { data: userData, error: userError } = await db.auth.getUser();
+
+    if (userError) throw userError;
+
+    if (userData.user?.app_metadata?.role !== "admin") {
+      document.body.innerHTML = `
+        <main style="max-width:650px;margin:70px auto;padding:20px">
+          <h1>Administrator access required</h1>
+          <p>This page is restricted to authorized MediCare administrators.</p>
+          <p><a href="login.html">Return to login</a></p>
+        </main>`;
+      return false;
+    }
+
+    return true;
+  }
+
+  async function loadPatients() {
+    const { data, error } = await db
+      .from("patients")
+      .select("id, patient_number, first_name, last_name")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    patients = data || [];
+    patientById = new Map(patients.map(patient => [patient.id, patient]));
+  }
+
+  async function loadTests() {
+    const { data, error } = await db
+      .from("lab_tests")
+      .select("*")
+      .order("test_name", { ascending: true });
+
+    if (error) throw error;
+
+    tests = data || [];
+    testById = new Map(tests.map(test => [test.id, test]));
+
+    renderTests();
+    renderTestOptions();
+  }
+
+  async function loadRequests() {
+    const { data, error } = await db
+      .from("lab_requests")
+      .select("*")
+      .order("requested_at", { ascending: false });
+
+    if (error) throw error;
+
+    requests = data || [];
+    renderRequests();
+    updateStats();
+  }
+
+  async function loadAll() {
+    try {
+      $("testsTable").innerHTML =
+        '<tr><td colspan="6">Loading tests...</td></tr>';
+
+      $("requestsTable").innerHTML =
+        '<tr><td colspan="7">Loading requests...</td></tr>';
+
+      await loadPatients();
+      await loadTests();
+      await loadRequests();
+    } catch (error) {
+      showMessage(
+        "Could not load laboratory records: " + error.message,
+        "error"
+      );
+    }
+  }
+
+  function renderTestOptions(selectedId = "") {
+    const activeTests = tests.filter(test => test.is_active);
+
+    $("requestTest").innerHTML =
+      '<option value="">Choose an active test</option>' +
+      activeTests.map(test => `
+        <option value="${escapeHTML(test.id)}"
+          ${test.id === selectedId ? "selected" : ""}>
+          ${escapeHTML(test.test_name)} — ${money(test.price)}
+        </option>
+      `).join("");
+  }
+
+  function renderTests() {
+    const search = $("testSearch").value.trim().toLowerCase();
+
+    const filtered = tests.filter(test =>
+      [
+        test.test_code,
+        test.test_name,
+        test.category,
+        test.description
+      ].some(value => String(value || "").toLowerCase().includes(search))
+    );
+
+    if (!filtered.length) {
+      $("testsTable").innerHTML =
+        '<tr><td colspan="6">No matching laboratory tests found.</td></tr>';
+      return;
+    }
+
+    $("testsTable").innerHTML = filtered.map(test => `
+      <tr>
+        <td>${escapeHTML(test.test_code)}</td>
+        <td>
+          <strong>${escapeHTML(test.test_name)}</strong>
+          ${test.description
+            ? `<div class="muted">${escapeHTML(test.description)}</div>`
+            : ""}
+        </td>
+        <td>${escapeHTML(test.category)}</td>
+        <td>${money(test.price)}</td>
+        <td>
+          <span class="badge ${test.is_active ? "complete" : "cancelled"}">
+            ${test.is_active ? "Active" : "Inactive"}
+          </span>
+        </td>
+        <td>
+          <button class="small" data-edit-test="${escapeHTML(test.id)}">
+            Edit
+          </button>
+          <button class="small ${test.is_active ? "danger" : "secondary"}"
+                  data-toggle-test="${escapeHTML(test.id)}">
+            ${test.is_active ? "Deactivate" : "Activate"}
+          </button>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  function renderRequests() {
+    const search = $("requestSearch").value.trim().toLowerCase();
+
+    const filtered = requests.filter(request => {
+      const patient = patientById.get(request.patient_id);
+      const test = testById.get(request.test_id);
+
+      const patientName = patient
+        ? `${patient.first_name} ${patient.last_name}`
+        : "";
+
+      return [
+        request.request_number,
+        request.status,
+        request.result,
+        request.result_notes,
+        patient?.patient_number,
+        patientName,
+        test?.test_name,
+        test?.test_code
+      ].some(value => String(value || "").toLowerCase().includes(search));
+    });
+
+    if (!filtered.length) {
+      $("requestsTable").innerHTML =
+        '<tr><td colspan="7">No matching laboratory requests found.</td></tr>';
+      return;
+    }
+
+    $("requestsTable").innerHTML = filtered.map(request => {
+      const patient = patientById.get(request.patient_id);
+      const test = testById.get(request.test_id);
+
+      const patientName = patient
+        ? `${patient.first_name} ${patient.last_name}`
+        : "Patient record unavailable";
+
+      const patientNumber = patient?.patient_number || "—";
+
+      return `
+        <tr>
+          <td>
+            <strong>${escapeHTML(request.request_number)}</strong>
+            <div class="muted">${escapeHTML(request.sample_type || "Sample unspecified")}</div>
+          </td>
+
+          <td>
+            ${escapeHTML(patientName)}
+            <div class="muted">${escapeHTML(patientNumber)}</div>
+          </td>
+
+          <td>
+            ${escapeHTML(test?.test_name || "Test unavailable")}
+            <div class="muted">${money(test?.price || 0)}</div>
+          </td>
+
+          <td>${dateText(request.requested_at)}</td>
+
+          <td>
+            <span class="badge ${statusClass(request.status)}">
+              ${escapeHTML(request.status)}
+            </span>
+          </td>
+
+          <td>
+            ${request.result
+              ? escapeHTML(request.result)
+              : '<span class="muted">No result entered</span>'}
+            ${request.result_notes
+              ? `<div class="muted">${escapeHTML(request.result_notes)}</div>`
+              : ""}
+            ${request.result_date
+              ? `<div class="muted">${dateText(request.result_date)}</div>`
+              : ""}
+          </td>
+
+          <td>
+            <button class="small" data-edit-request="${escapeHTML(request.id)}">
+              Update
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  function updateStats() {
+    $("statTests").textContent =
+      tests.filter(test => test.is_active).length;
+
+    $("statRequests").textContent = requests.length;
+
+    $("statPending").textContent = requests.filter(request =>
+      ["Pending", "Sample Collected", "In Progress"].includes(request.status)
+    ).length;
+
+    $("statCompleted").textContent =
+      requests.filter(request => request.status === "Completed").length;
+  }
+
+  function resetTestForm() {
+    $("testForm").reset();
+    $("testId").value = "";
+    $("testPrice").value = "0";
+    $("testFormTitle").textContent = "Add Laboratory Test";
+    $("saveTestButton").textContent = "Save Laboratory Test";
+    $("cancelTestEdit").classList.add("hidden");
+  }
+
+  function editTest(test) {
+    $("testId").value = test.id;
+    $("testCode").value = test.test_code;
+    $("testName").value = test.test_name;
+    $("testCategory").value = test.category;
+    $("testPrice").value = test.price;
+    $("testDescription").value = test.description || "";
+
+    $("testFormTitle").textContent = "Edit Laboratory Test";
+    $("saveTestButton").textContent = "Update Laboratory Test";
+    $("cancelTestEdit").classList.remove("hidden");
+
+    $("testForm").scrollIntoView({ behavior: "smooth" });
+  }
+
+  $("testForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const button = $("saveTestButton");
+    button.disabled = true;
+
+    const id = $("testId").value;
+
+    const record = {
+      test_code: $("testCode").value.trim().toUpperCase(),
+      test_name: $("testName").value.trim(),
+      category: $("testCategory").value,
+      price: Number($("testPrice").value),
+      description: $("testDescription").value.trim() || null,
+      updated_at: new Date().toISOString()
+    };
+
+    if (!record.test_code || !record.test_name ||
+        !record.category || record.price < 0) {
+      showMessage("Please check all required test details.", "error");
+      button.disabled = false;
+      return;
+    }
+
+    try {
+      let result;
+
+      if (id) {
+        result = await db.from("lab_tests")
+          .update(record)
+          .eq("id", id);
+      } else {
+        result = await db.from("lab_tests")
+          .insert(record);
+      }
+
+      if (result.error) throw result.error;
+
+      showMessage(id
+        ? "Laboratory test updated successfully."
+        : "Laboratory test added successfully.");
+
+      resetTestForm();
+      await loadTests();
+      await loadRequests();
+    } catch (error) {
+      showMessage("Could not save test: " + error.message, "error");
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  $("cancelTestEdit").addEventListener("click", resetTestForm);
+
+  $("testsTable").addEventListener("click", async event => {
+    const editButton = event.target.closest("[data-edit-test]");
+    const toggleButton = event.target.closest("[data-toggle-test]");
+
+    if (editButton) {
+      const test = testById.get(editButton.dataset.editTest);
+      if (test) editTest(test);
+      return;
+    }
+
+    if (toggleButton) {
+      const test = testById.get(toggleButton.dataset.toggleTest);
+      if (!test) return;
+
+      const action = test.is_active ? "deactivate" : "activate";
+
+      if (!window.confirm(
+        `Are you sure you want to ${action} "${test.test_name}"?`
+      )) return;
+
+      try {
+        const { error } = await db.from("lab_tests")
+          .update({
+            is_active: !test.is_active,
+            updated_at: new Date().toISOString()
+          })
+          .eq("id", test.id);
+
+        if (error) throw error;
+
+        showMessage(`Test ${action}d successfully.`);
+        await loadTests();
+      } catch (error) {
+        showMessage("Could not change test status: " + error.message, "error");
+      }
+    }
+  });
+
+  $("requestForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const button = $("saveRequestButton");
+    button.disabled = true;
+
+    try {
+      const patientNumber = $("patientNumber").value.trim();
+
+      const patient = patients.find(item =>
+        item.patient_number.toLowerCase() === patientNumber.toLowerCase()
+      );
+
+      if (!patient) {
+        throw new Error(
+          "Patient number not found. Register the patient first or check the number."
+        );
+      }
+
+      const testId = $("requestTest").value;
+      const test = testById.get(testId);
+
+      if (!test || !test.is_active) {
+        throw new Error("Choose an active laboratory test.");
+      }
+
+      const requestId = $("requestId").value;
+
+      const record = {
+        patient_id: patient.id,
+        test_id: test.id,
+        sample_type: $("sampleType").value || null,
+        ordered_by: $("orderedBy").value.trim() || null,
+        updated_at: new Date().toISOString()
+      };
+
+      let result;
+
+      if (requestId) {
+        result = await db.from("lab_requests")
+          .update(record)
+          .eq("id", requestId);
+      } else {
+        record.request_number = makeRequestNumber();
+        record.status = "Pending";
+
+        result = await db.from("lab_requests").insert(record);
+      }
+
+      if (result.error) throw result.error;
+
+      showMessage(requestId
+        ? "Laboratory request updated successfully."
+        : "Laboratory request created successfully.");
+
+      resetRequestForm();
+      await loadRequests();
+    } catch (error) {
+      showMessage("Could not save request: " + error.message, "error");
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  function resetRequestForm() {
+    $("requestForm").reset();
+    $("requestId").value = "";
+    $("requestFormTitle").textContent = "Register Patient Test Request";
+    $("saveRequestButton").textContent = "Create Test Request";
+    $("cancelRequestEdit").classList.add("hidden");
+    renderTestOptions();
+  }
+
+  $("cancelRequestEdit").addEventListener("click", resetRequestForm);
+
+  $("requestsTable").addEventListener("click", async event => {
+    const button = event.target.closest("[data-edit-request]");
+    if (!button) return;
+
+    const request = requests.find(item => item.id === button.dataset.editRequest);
+    if (!request) return;
+
+    const patient = patientById.get(request.patient_id);
+
+    const newStatus = window.prompt(
+      "Enter status exactly as one of:\nPending\nSample Collected\nIn Progress\nCompleted\nCancelled",
+      request.status
+    );
+
+    if (newStatus === null) return;
+
+    const allowed = [
+      "Pending",
+      "Sample Collected",
+      "In Progress",
+      "Completed",
+      "Cancelled"
+    ];
+
+    if (!allowed.includes(newStatus.trim())) {
+      showMessage("Invalid status. No changes were made.", "error");
+      return;
+    }
+
+    let resultText = request.result || "";
+    let notesText = request.result_notes || "";
+
+    if (newStatus.trim() === "Completed") {
+      const enteredResult = window.prompt(
+        "Enter the verified laboratory result:",
+        resultText
+      );
+
+      if (enteredResult === null) return;
+
+      resultText = enteredResult.trim();
+
+      const enteredNotes = window.prompt(
+        "Enter result notes (optional):",
+        notesText
+      );
+
+      if (enteredNotes === null) return;
+
+      notesText = enteredNotes.trim();
+    }
+
+    const record = {
+      status: newStatus.trim(),
+      result: resultText || null,
+      result_notes: notesText || null,
+      result_date: newStatus.trim() === "Completed"
+        ? new Date().toISOString()
+        : request.result_date,
+      updated_at: new Date().toISOString()
+    };
+
+    try {
+      const { error } = await db.from("lab_requests")
+        .update(record)
+        .eq("id", request.id);
+
+      if (error) throw error;
+
+      showMessage(
+        `Request ${request.request_number} updated successfully.` +
+        (patient ? ` Patient: ${patient.first_name} ${patient.last_name}.` : "")
+      );
+
+      await loadRequests();
+    } catch (error) {
+      showMessage("Could not update request: " + error.message, "error");
+    }
+  });
+
+  $("testSearch").addEventListener("input", renderTests);
+  $("requestSearch").addEventListener("input", renderRequests);
+
+  $("patientNumber").addEventListener("change", () => {
+    const number = $("patientNumber").value.trim().toLowerCase();
+
+    const patient = patients.find(item =>
+      item.patient_number.toLowerCase() === number
+    );
+
+    $("patientLookupMessage").textContent = patient
+      ? `Patient found: ${patient.first_name} ${patient.last_name}`
+      : "Patient not found. Check the number or register the patient first.";
+  });
+
+  async function start() {
+    try {
+      const allowed = await requireAdmin();
+      if (!allowed) return;
+
+      await loadAll();
+    } catch (error) {
+      showMessage("Page initialization failed: " + error.message, "error");
+    }
+  }
+
+  start();
+})();
+</script>
+</body>
+</html>
