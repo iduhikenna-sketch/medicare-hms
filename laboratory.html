@@ -19,9 +19,7 @@
       --text: #344054;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -36,21 +34,13 @@
       padding: 20px;
     }
 
-    .header-inner,
-    main {
+    .header-inner, main {
       max-width: 1200px;
       margin: auto;
     }
 
-    header h1 {
-      margin: 0 0 6px;
-      font-size: 24px;
-    }
-
-    header p {
-      margin: 0;
-      color: #d0d9ee;
-    }
+    header h1 { margin: 0 0 6px; font-size: 24px; }
+    header p { margin: 0; color: #d0d9ee; }
 
     nav {
       display: flex;
@@ -68,13 +58,8 @@
       font-size: 13px;
     }
 
-    nav a.active {
-      background: var(--blue);
-    }
-
-    main {
-      padding: 22px 16px 45px;
-    }
+    nav a.active { background: var(--blue); }
+    main { padding: 22px 16px 45px; }
 
     .notice {
       padding: 12px 14px;
@@ -93,17 +78,14 @@
       margin-bottom: 22px;
     }
 
-    .stat,
-    .panel {
+    .stat, .panel {
       background: white;
       border: 1px solid var(--border);
       border-radius: 12px;
       box-shadow: 0 2px 5px #10182808;
     }
 
-    .stat {
-      padding: 18px;
-    }
+    .stat { padding: 18px; }
 
     .stat span {
       display: block;
@@ -117,10 +99,7 @@
       color: var(--navy);
     }
 
-    .panel {
-      padding: 20px;
-      margin-bottom: 20px;
-    }
+    .panel { padding: 20px; margin-bottom: 20px; }
 
     .panel h2 {
       font-size: 19px;
@@ -134,13 +113,8 @@
       gap: 15px;
     }
 
-    .field {
-      min-width: 0;
-    }
-
-    .field.full {
-      grid-column: 1 / -1;
-    }
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
 
     label {
       display: block;
@@ -149,9 +123,7 @@
       margin-bottom: 6px;
     }
 
-    input,
-    select,
-    textarea {
+    input, select, textarea {
       display: block;
       width: 100%;
       padding: 11px;
@@ -163,10 +135,7 @@
       font-size: 14px;
     }
 
-    textarea {
-      min-height: 85px;
-      resize: vertical;
-    }
+    textarea { min-height: 85px; resize: vertical; }
 
     button {
       border: 0;
@@ -179,23 +148,10 @@
       font-size: 13px;
     }
 
-    button:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    button.secondary {
-      background: #475467;
-    }
-
-    button.danger {
-      background: var(--red);
-    }
-
-    button.small {
-      padding: 7px 9px;
-      margin: 2px;
-    }
+    button:disabled { opacity: 0.6; cursor: wait; }
+    button.secondary { background: #475467; }
+    button.danger { background: var(--red); }
+    button.small { padding: 7px 9px; margin: 2px; }
 
     .actions {
       display: flex;
@@ -204,10 +160,7 @@
       margin-top: 17px;
     }
 
-    .table-wrap {
-      overflow-x: auto;
-      width: 100%;
-    }
+    .table-wrap { overflow-x: auto; width: 100%; }
 
     table {
       width: 100%;
@@ -216,8 +169,7 @@
       font-size: 13px;
     }
 
-    th,
-    td {
+    th, td {
       padding: 12px 10px;
       border-bottom: 1px solid var(--border);
       text-align: left;
@@ -240,34 +192,13 @@
       color: #344054;
     }
 
-    .badge.pending {
-      background: #fff4e5;
-      color: #93370d;
-    }
+    .badge.pending { background: #fff4e5; color: #93370d; }
+    .badge.progress { background: #eff8ff; color: #175cd3; }
+    .badge.complete { background: #ecfdf3; color: #027a48; }
+    .badge.cancelled { background: #fef3f2; color: #b42318; }
 
-    .badge.progress {
-      background: #eff8ff;
-      color: #175cd3;
-    }
-
-    .badge.complete {
-      background: #ecfdf3;
-      color: #027a48;
-    }
-
-    .badge.cancelled {
-      background: #fef3f2;
-      color: #b42318;
-    }
-
-    .muted {
-      color: #667085;
-      font-size: 13px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    .muted { color: #667085; font-size: 13px; }
+    .hidden { display: none !important; }
 
     #message {
       position: sticky;
@@ -303,13 +234,8 @@
       margin-bottom: 14px;
     }
 
-    .section-title h2 {
-      margin: 0;
-    }
-
-    .search {
-      max-width: 300px;
-    }
+    .section-title h2 { margin: 0; }
+    .search { max-width: 300px; }
 
     footer {
       text-align: center;
@@ -319,31 +245,15 @@
     }
 
     @media (max-width: 750px) {
-      .stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .field.full {
-        grid-column: auto;
-      }
-
-      .panel {
-        padding: 15px;
-      }
-
-      header h1 {
-        font-size: 21px;
-      }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .panel { padding: 15px; }
+      header h1 { font-size: 21px; }
     }
 
     @media (max-width: 360px) {
-      .stats {
-        grid-template-columns: 1fr;
-      }
+      .stats { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -379,17 +289,14 @@
       <span>Active Test Types</span>
       <strong id="statTests">0</strong>
     </div>
-
     <div class="stat">
       <span>Total Requests</span>
       <strong id="statRequests">0</strong>
     </div>
-
     <div class="stat">
       <span>Pending / Collection</span>
       <strong id="statPending">0</strong>
     </div>
-
     <div class="stat">
       <span>Completed</span>
       <strong id="statCompleted">0</strong>
@@ -454,20 +361,15 @@
   <section class="panel">
     <div class="section-title">
       <h2>Laboratory Test Catalogue</h2>
-      <input class="search" id="testSearch"
-             placeholder="Search tests...">
+      <input class="search" id="testSearch" placeholder="Search tests...">
     </div>
 
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>Test Code</th>
-            <th>Test Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>Test Code</th><th>Test Name</th><th>Category</th>
+            <th>Price</th><th>Status</th><th>Actions</th>
           </tr>
         </thead>
         <tbody id="testsTable">
@@ -486,8 +388,7 @@
       <div class="form-grid">
         <div class="field">
           <label for="patientNumber">Registered Patient Number *</label>
-          <input id="patientNumber" required
-                 placeholder="Enter patient number">
+          <input id="patientNumber" required placeholder="Enter patient number">
           <p class="muted" id="patientLookupMessage">
             Enter the patient number exactly as registered.
           </p>
@@ -521,9 +422,7 @@
       </div>
 
       <div class="actions">
-        <button id="saveRequestButton" type="submit">
-          Create Test Request
-        </button>
+        <button id="saveRequestButton" type="submit">Create Test Request</button>
         <button type="button" class="secondary hidden"
                 id="cancelRequestEdit">Cancel Edit</button>
       </div>
@@ -541,13 +440,8 @@
       <table>
         <thead>
           <tr>
-            <th>Request Number</th>
-            <th>Patient</th>
-            <th>Test</th>
-            <th>Requested</th>
-            <th>Status</th>
-            <th>Result</th>
-            <th>Actions</th>
+            <th>Request Number</th><th>Patient</th><th>Test</th>
+            <th>Requested</th><th>Status</th><th>Result</th><th>Actions</th>
           </tr>
         </thead>
         <tbody id="requestsTable">
@@ -564,16 +458,13 @@
   </p>
 </main>
 
-<footer>
-  MediCare Hospital Management System · Laboratory Module
-</footer>
+<footer>MediCare Hospital Management System · Laboratory Module</footer>
 
 <script>
 (() => {
   "use strict";
 
   const db = window.medicareSupabase;
-
   const $ = id => document.getElementById(id);
 
   let tests = [];
@@ -587,8 +478,8 @@
     const box = $("message");
     box.textContent = text;
     box.className = type;
-
     clearTimeout(messageTimer);
+
     messageTimer = setTimeout(() => {
       box.className = "";
       box.textContent = "";
@@ -617,27 +508,27 @@
   function dateText(value) {
     if (!value) return "—";
     const date = new Date(value);
-    return Number.isNaN(date.getTime())
-      ? "—"
-      : date.toLocaleString("en-NG", {
-          dateStyle: "medium",
-          timeStyle: "short"
-        });
+
+    return Number.isNaN(date.getTime()) ? "—" : date.toLocaleString("en-NG", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
   }
 
   function statusClass(status) {
     if (status === "Completed") return "complete";
     if (status === "Cancelled") return "cancelled";
+
     if (status === "In Progress" || status === "Sample Collected") {
       return "progress";
     }
+
     return "pending";
   }
 
   function makeRequestNumber() {
     const date = new Date();
-    const stamp =
-      date.getFullYear().toString() +
+    const stamp = date.getFullYear().toString() +
       String(date.getMonth() + 1).padStart(2, "0") +
       String(date.getDate()).padStart(2, "0");
 
@@ -648,24 +539,18 @@
 
   async function requireAdmin() {
     if (!db) {
-      throw new Error(
-        "Supabase did not load. Check supabase-config.js and reload this page."
-      );
+      throw new Error("Supabase did not load. Check supabase-config.js and reload this page.");
     }
 
     const { data, error } = await db.auth.getSession();
-
     if (error) throw error;
 
-    const session = data.session;
-
-    if (!session) {
+    if (!data.session) {
       window.location.replace("login.html");
       return false;
     }
 
     const { data: userData, error: userError } = await db.auth.getUser();
-
     if (userError) throw userError;
 
     if (userData.user?.app_metadata?.role !== "admin") {
@@ -682,8 +567,7 @@
   }
 
   async function loadPatients() {
-    const { data, error } = await db
-      .from("patients")
+    const { data, error } = await db.from("patients")
       .select("id, patient_number, first_name, last_name")
       .order("created_at", { ascending: false });
 
@@ -694,8 +578,7 @@
   }
 
   async function loadTests() {
-    const { data, error } = await db
-      .from("lab_tests")
+    const { data, error } = await db.from("lab_tests")
       .select("*")
       .order("test_name", { ascending: true });
 
@@ -709,8 +592,7 @@
   }
 
   async function loadRequests() {
-    const { data, error } = await db
-      .from("lab_requests")
+    const { data, error } = await db.from("lab_requests")
       .select("*")
       .order("requested_at", { ascending: false });
 
@@ -723,20 +605,14 @@
 
   async function loadAll() {
     try {
-      $("testsTable").innerHTML =
-        '<tr><td colspan="6">Loading tests...</td></tr>';
-
-      $("requestsTable").innerHTML =
-        '<tr><td colspan="7">Loading requests...</td></tr>';
+      $("testsTable").innerHTML = '<tr><td colspan="6">Loading tests...</td></tr>';
+      $("requestsTable").innerHTML = '<tr><td colspan="7">Loading requests...</td></tr>';
 
       await loadPatients();
       await loadTests();
       await loadRequests();
     } catch (error) {
-      showMessage(
-        "Could not load laboratory records: " + error.message,
-        "error"
-      );
+      showMessage("Could not load laboratory records: " + error.message, "error");
     }
   }
 
@@ -757,12 +633,8 @@
     const search = $("testSearch").value.trim().toLowerCase();
 
     const filtered = tests.filter(test =>
-      [
-        test.test_code,
-        test.test_name,
-        test.category,
-        test.description
-      ].some(value => String(value || "").toLowerCase().includes(search))
+      [test.test_code, test.test_name, test.category, test.description]
+        .some(value => String(value || "").toLowerCase().includes(search))
     );
 
     if (!filtered.length) {
@@ -776,9 +648,7 @@
         <td>${escapeHTML(test.test_code)}</td>
         <td>
           <strong>${escapeHTML(test.test_name)}</strong>
-          ${test.description
-            ? `<div class="muted">${escapeHTML(test.description)}</div>`
-            : ""}
+          ${test.description ? `<div class="muted">${escapeHTML(test.description)}</div>` : ""}
         </td>
         <td>${escapeHTML(test.category)}</td>
         <td>${money(test.price)}</td>
@@ -788,11 +658,9 @@
           </span>
         </td>
         <td>
-          <button class="small" data-edit-test="${escapeHTML(test.id)}">
-            Edit
-          </button>
+          <button class="small" data-edit-test="${escapeHTML(test.id)}">Edit</button>
           <button class="small ${test.is_active ? "danger" : "secondary"}"
-                  data-toggle-test="${escapeHTML(test.id)}">
+            data-toggle-test="${escapeHTML(test.id)}">
             ${test.is_active ? "Deactivate" : "Activate"}
           </button>
         </td>
@@ -806,20 +674,12 @@
     const filtered = requests.filter(request => {
       const patient = patientById.get(request.patient_id);
       const test = testById.get(request.test_id);
-
-      const patientName = patient
-        ? `${patient.first_name} ${patient.last_name}`
-        : "";
+      const patientName = patient ? `${patient.first_name} ${patient.last_name}` : "";
 
       return [
-        request.request_number,
-        request.status,
-        request.result,
-        request.result_notes,
-        patient?.patient_number,
-        patientName,
-        test?.test_name,
-        test?.test_code
+        request.request_number, request.status, request.result,
+        request.result_notes, patient?.patient_number, patientName,
+        test?.test_name, test?.test_code
       ].some(value => String(value || "").toLowerCase().includes(search));
     });
 
@@ -832,12 +692,9 @@
     $("requestsTable").innerHTML = filtered.map(request => {
       const patient = patientById.get(request.patient_id);
       const test = testById.get(request.test_id);
-
       const patientName = patient
         ? `${patient.first_name} ${patient.last_name}`
         : "Patient record unavailable";
-
-      const patientNumber = patient?.patient_number || "—";
 
       return `
         <tr>
@@ -845,51 +702,29 @@
             <strong>${escapeHTML(request.request_number)}</strong>
             <div class="muted">${escapeHTML(request.sample_type || "Sample unspecified")}</div>
           </td>
-
           <td>
             ${escapeHTML(patientName)}
-            <div class="muted">${escapeHTML(patientNumber)}</div>
+            <div class="muted">${escapeHTML(patient?.patient_number || "—")}</div>
           </td>
-
           <td>
             ${escapeHTML(test?.test_name || "Test unavailable")}
             <div class="muted">${money(test?.price || 0)}</div>
           </td>
-
           <td>${dateText(request.requested_at)}</td>
-
+          <td><span class="badge ${statusClass(request.status)}">${escapeHTML(request.status)}</span></td>
           <td>
-            <span class="badge ${statusClass(request.status)}">
-              ${escapeHTML(request.status)}
-            </span>
+            ${request.result ? escapeHTML(request.result) : '<span class="muted">No result entered</span>'}
+            ${request.result_notes ? `<div class="muted">${escapeHTML(request.result_notes)}</div>` : ""}
+            ${request.result_date ? `<div class="muted">${dateText(request.result_date)}</div>` : ""}
           </td>
-
-          <td>
-            ${request.result
-              ? escapeHTML(request.result)
-              : '<span class="muted">No result entered</span>'}
-            ${request.result_notes
-              ? `<div class="muted">${escapeHTML(request.result_notes)}</div>`
-              : ""}
-            ${request.result_date
-              ? `<div class="muted">${dateText(request.result_date)}</div>`
-              : ""}
-          </td>
-
-          <td>
-            <button class="small" data-edit-request="${escapeHTML(request.id)}">
-              Update
-            </button>
-          </td>
+          <td><button class="small" data-edit-request="${escapeHTML(request.id)}">Update</button></td>
         </tr>
       `;
     }).join("");
   }
 
   function updateStats() {
-    $("statTests").textContent =
-      tests.filter(test => test.is_active).length;
-
+    $("statTests").textContent = tests.filter(test => test.is_active).length;
     $("statRequests").textContent = requests.length;
 
     $("statPending").textContent = requests.filter(request =>
@@ -920,7 +755,6 @@
     $("testFormTitle").textContent = "Edit Laboratory Test";
     $("saveTestButton").textContent = "Update Laboratory Test";
     $("cancelTestEdit").classList.remove("hidden");
-
     $("testForm").scrollIntoView({ behavior: "smooth" });
   }
 
@@ -952,12 +786,9 @@
       let result;
 
       if (id) {
-        result = await db.from("lab_tests")
-          .update(record)
-          .eq("id", id);
+        result = await db.from("lab_tests").update(record).eq("id", id);
       } else {
-        result = await db.from("lab_tests")
-          .insert(record);
+        result = await db.from("lab_tests").insert(record);
       }
 
       if (result.error) throw result.error;
@@ -988,31 +819,31 @@
       return;
     }
 
-    if (toggleButton) {
-      const test = testById.get(toggleButton.dataset.toggleTest);
-      if (!test) return;
+    if (!toggleButton) return;
 
-      const action = test.is_active ? "deactivate" : "activate";
+    const test = testById.get(toggleButton.dataset.toggleTest);
+    if (!test) return;
 
-      if (!window.confirm(
-        `Are you sure you want to ${action} "${test.test_name}"?`
-      )) return;
+    const action = test.is_active ? "deactivate" : "activate";
 
-      try {
-        const { error } = await db.from("lab_tests")
-          .update({
-            is_active: !test.is_active,
-            updated_at: new Date().toISOString()
-          })
-          .eq("id", test.id);
+    if (!window.confirm(`Are you sure you want to ${action} "${test.test_name}"?`)) {
+      return;
+    }
 
-        if (error) throw error;
+    try {
+      const { error } = await db.from("lab_tests")
+        .update({
+          is_active: !test.is_active,
+          updated_at: new Date().toISOString()
+        })
+        .eq("id", test.id);
 
-        showMessage(`Test ${action}d successfully.`);
-        await loadTests();
-      } catch (error) {
-        showMessage("Could not change test status: " + error.message, "error");
-      }
+      if (error) throw error;
+
+      showMessage(`Test ${action}d successfully.`);
+      await loadTests();
+    } catch (error) {
+      showMessage("Could not change test status: " + error.message, "error");
     }
   });
 
@@ -1030,9 +861,7 @@
       );
 
       if (!patient) {
-        throw new Error(
-          "Patient number not found. Register the patient first or check the number."
-        );
+        throw new Error("Patient number not found. Register the patient first or check the number.");
       }
 
       const testId = $("requestTest").value;
@@ -1055,13 +884,10 @@
       let result;
 
       if (requestId) {
-        result = await db.from("lab_requests")
-          .update(record)
-          .eq("id", requestId);
+        result = await db.from("lab_requests").update(record).eq("id", requestId);
       } else {
         record.request_number = makeRequestNumber();
         record.status = "Pending";
-
         result = await db.from("lab_requests").insert(record);
       }
 
@@ -1091,23 +917,24 @@
 
   $("cancelRequestEdit").addEventListener("click", resetRequestForm);
 
+  /*
+   * Corrected request-update handler.
+   * Normalizes the status and reports actual database errors.
+   */
   $("requestsTable").addEventListener("click", async event => {
     const button = event.target.closest("[data-edit-request]");
     if (!button) return;
 
-    const request = requests.find(item => item.id === button.dataset.editRequest);
-    if (!request) return;
-
-    const patient = patientById.get(request.patient_id);
-
-    const newStatus = window.prompt(
-      "Enter status exactly as one of:\nPending\nSample Collected\nIn Progress\nCompleted\nCancelled",
-      request.status
+    const request = requests.find(item =>
+      item.id === button.dataset.editRequest
     );
 
-    if (newStatus === null) return;
+    if (!request) {
+      showMessage("Laboratory request not found. Refresh the page.", "error");
+      return;
+    }
 
-    const allowed = [
+    const allowedStatuses = [
       "Pending",
       "Sample Collected",
       "In Progress",
@@ -1115,15 +942,32 @@
       "Cancelled"
     ];
 
-    if (!allowed.includes(newStatus.trim())) {
-      showMessage("Invalid status. No changes were made.", "error");
+    const enteredStatus = window.prompt(
+      "Enter one status exactly as shown:\n" + allowedStatuses.join("\n"),
+      request.status
+    );
+
+    if (enteredStatus === null) return;
+
+    const normalizedStatus = enteredStatus.trim().toLowerCase();
+
+    const newStatus = allowedStatuses.find(status =>
+      status.toLowerCase() === normalizedStatus
+    );
+
+    if (!newStatus) {
+      showMessage(
+        "Invalid status. Please enter one of the five listed statuses.",
+        "error"
+      );
       return;
     }
 
     let resultText = request.result || "";
     let notesText = request.result_notes || "";
+    let resultDate = request.result_date || null;
 
-    if (newStatus.trim() === "Completed") {
+    if (newStatus === "Completed") {
       const enteredResult = window.prompt(
         "Enter the verified laboratory result:",
         resultText
@@ -1133,6 +977,14 @@
 
       resultText = enteredResult.trim();
 
+      if (!resultText) {
+        showMessage(
+          "A result is required before completing this request.",
+          "error"
+        );
+        return;
+      }
+
       const enteredNotes = window.prompt(
         "Enter result notes (optional):",
         notesText
@@ -1141,33 +993,45 @@
       if (enteredNotes === null) return;
 
       notesText = enteredNotes.trim();
+      resultDate = new Date().toISOString();
     }
 
     const record = {
-      status: newStatus.trim(),
+      status: newStatus,
       result: resultText || null,
       result_notes: notesText || null,
-      result_date: newStatus.trim() === "Completed"
-        ? new Date().toISOString()
-        : request.result_date,
+      result_date: resultDate,
       updated_at: new Date().toISOString()
     };
 
     try {
-      const { error } = await db.from("lab_requests")
+      const { data, error } = await db.from("lab_requests")
         .update(record)
-        .eq("id", request.id);
+        .eq("id", request.id)
+        .select("id, status")
+        .maybeSingle();
 
       if (error) throw error;
 
+      if (!data) {
+        throw new Error(
+          "No record was updated. Check administrator permissions and database policies."
+        );
+      }
+
       showMessage(
-        `Request ${request.request_number} updated successfully.` +
-        (patient ? ` Patient: ${patient.first_name} ${patient.last_name}.` : "")
+        "Laboratory request updated successfully. New status: " + data.status
       );
 
       await loadRequests();
     } catch (error) {
-      showMessage("Could not update request: " + error.message, "error");
+      console.error("Laboratory request update failed:", error);
+
+      showMessage(
+        "Could not update laboratory request: " +
+        (error.message || "Unknown database error"),
+        "error"
+      );
     }
   });
 
@@ -1190,7 +1054,6 @@
     try {
       const allowed = await requireAdmin();
       if (!allowed) return;
-
       await loadAll();
     } catch (error) {
       showMessage("Page initialization failed: " + error.message, "error");
