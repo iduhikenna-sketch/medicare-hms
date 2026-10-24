@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor & Staff Management | MediCare HMS</title>
+  <style>
+    :root {
+      --primary: #087f8c;
+      --primary-dark: #05616b;
+      --background: #f3f7fa;
+      --white: #ffffff;
+      --text: #172b4d;
+      --muted: #64748b;
+      --border: #dce5ec;
+      --success: #15803d;
+      --danger: #b91c1c;
+      --shadow: 0 8px 25px rgba(23,43,77,.07);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--white);
+      padding: 18px 5%;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-top: 4px;
+    }
+
+    header a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 14px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 16px 40px;
+    }
+
+    .page-heading {
+      margin-bottom: 22px;
+    }
+
+    .page-heading h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .page-heading p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .stat, .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat { padding: 20px; }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .stat strong { font-size: 28px; }
+
+    .card {
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+
+    .card h2 {
+      margin: 0 0 20px;
+      font-size: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font: inherit;
+      font-size: 14px;
+      background: white;
+      color: var(--text);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid rgba(8,127,140,.18);
+      border-color: var(--primary);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 7px;
+      padding: 12px 17px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .primary { background: var(--primary); color: white; }
+    .primary:hover { background: var(--primary-dark); }
+    .secondary { background: #e2e8f0; color: #334155; }
+    .danger { background: #fee2e2; color: var(--danger); }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar input, .toolbar select {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 850px;
+    }
+
+    th, td {
+      padding: 13px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    th {
+      color: #475569;
+      background: #f8fafc;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 20px;
+      padding: 5px 9px;
+      background: #dcfce7;
+      color: #166534;
+      font-size: 11px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .badge.inactive {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .row-actions { display: flex; gap: 6px; }
+    .row-actions button { padding: 8px 10px; font-size: 12px; }
+
+    .notice {
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      display: none;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .notice.success { display: block; background: #dcfce7; color: #166534; }
+    .notice.error { display: block; background: #fee2e2; color: #991b1b; }
+    .notice.info { display: block; background: #dbeafe; color: #1e40af; }
+
+    .empty {
+      text-align: center;
+      padding: 30px 12px;
+      color: var(--muted);
+    }
+
+    .small-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 800px) {
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 520px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .page-heading h1 { font-size: 23px; }
+      .card { padding: 16px; }
+      header a { margin-left: 0; margin-right: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      MediCare HMS
+      <small>HOSPITAL MANAGEMENT SYSTEM</small>
+    </div>
+    <nav>
+      <a href="admin-dashboard.html">Dashboard</a>
+      <a href="patients.html">Patients</a>
+      <a href="appointments.html">Appointments</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <h1>Doctor &amp; Staff Management</h1>
+      <p>Register doctors and staff members and manage their hospital records.</p>
+    </section>
+
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+    <section class="stats">
+      <div class="stat">
+        <span>Total Staff</span>
+        <strong id="totalCount">0</strong>
+      </div>
+      <div class="stat">
+        <span>Doctors</span>
+        <strong id="doctorCount">0</strong>
+      </div>
+      <div class="stat">
+        <span>Nurses</span>
+        <strong id="nurseCount">0</strong>
+      </div>
+      <div class="stat">
+        <span>Active Staff</span>
+        <strong id="activeCount">0</strong>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 id="formTitle">Register Doctor or Staff</h2>
+
+      <form id="staffForm">
+        <input type="hidden" id="staffId">
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="fullName">Full Name *</label>
+            <input id="fullName" type="text" maxlength="150"
+              placeholder="Enter full name" required>
+          </div>
+
+          <div class="field">
+            <label for="roleType">Staff Role *</label>
+            <select id="roleType" required>
+              <option value="">Select role</option>
+              <option>Doctor</option>
+              <option>Nurse</option>
+              <option>Receptionist</option>
+              <option>Pharmacist</option>
+              <option>Laboratory Technician</option>
+              <option>Accountant</option>
+              <option>Administrator</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="department">Department</label>
+            <input id="department" type="text" maxlength="100"
+              placeholder="e.g. General Medicine">
+          </div>
+
+          <div class="field">
+            <label for="specialty">Medical Specialty</label>
+            <input id="specialty" type="text" maxlength="150"
+              placeholder="e.g. Pediatrics">
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input id="phone" type="tel" maxlength="40"
+              placeholder="Enter phone number">
+          </div>
+
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" type="email" maxlength="254"
+              placeholder="staff@example.com">
+          </div>
+
+          <div class="field">
+            <label for="employmentStatus">Employment Status *</label>
+            <select id="employmentStatus" required>
+              <option>Active</option>
+              <option>On Leave</option>
+              <option>Suspended</option>
+              <option>Resigned</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="saveButton">
+            Register Staff
+          </button>
+          <button type="button" class="secondary" id="clearButton">
+            Clear Form
+          </button>
+        </div>
+
+        <p class="small-note">
+          Use fictional records while testing. Only authorized administrators
+          can access records through the configured database policy.
+        </p>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Registered Doctors &amp; Staff</h2>
+
+      <div class="toolbar">
+        <input id="searchInput" type="search"
+          placeholder="Search name, staff number, department or email">
+        <select id="roleFilter" aria-label="Filter by role">
+          <option value="">All roles</option>
+          <option>Doctor</option>
+          <option>Nurse</option>
+          <option>Receptionist</option>
+          <option>Pharmacist</option>
+          <option>Laboratory Technician</option>
+          <option>Accountant</option>
+          <option>Administrator</option>
+          <option>Other</option>
+        </select>
+        <select id="statusFilter" aria-label="Filter by employment status">
+          <option value="">All statuses</option>
+          <option>Active</option>
+          <option>On Leave</option>
+          <option>Suspended</option>
+          <option>Resigned</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Staff Number</th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Department / Specialty</th>
+              <th>Contact</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="staffTableBody">
+            <tr><td colspan="7" class="empty">Loading staff records...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>MediCare HMS &copy; 2026 — Doctor &amp; Staff Management</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <script>
+    "use strict";
+
+    let supabaseClient = null;
+    let staffRecords = [];
+
+    const $ = (id) => document.getElementById(id);
+
+    function showNotice(message, type) {
+      const box = $("notice");
+      box.textContent = message;
+      box.className = "notice " + type;
+      box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function clearNotice() {
+      $("notice").textContent = "";
+      $("notice").className = "notice";
+    }
+
+    function getClient() {
+      if (window.medicareSupabase &&
+          typeof window.medicareSupabase.from === "function") {
+        return window.medicareSupabase;
+      }
+
+      const config = window.SUPABASE_CONFIG || window.supabaseConfig || {};
+      const url = config.url || config.supabaseUrl || window.SUPABASE_URL;
+      const key = config.anonKey ||
+        config.publishableKey ||
+        config.supabaseKey ||
+        window.SUPABASE_ANON_KEY ||
+        window.SUPABASE_PUBLISHABLE_KEY;
+
+      if (!url || !key || !window.supabase) {
+        throw new Error(
+          "Supabase configuration was not found. Check supabase-config.js."
+        );
+      }
+
+      return window.supabase.createClient(url, key);
+    }
+
+    function makeStaffNumber() {
+      const date = new Date();
+      const day = [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0")
+      ].join("");
+
+      const random = Math.random().toString(36).slice(2, 8).toUpperCase();
+      return "MCH-STAFF-" + day + "-" + random;
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[character]);
+    }
+
+    function updateStats() {
+      $("totalCount").textContent = staffRecords.length;
+      $("doctorCount").textContent =
+        staffRecords.filter(s => s.role_type === "Doctor").length;
+      $("nurseCount").textContent =
+        staffRecords.filter(s => s.role_type === "Nurse").length;
+      $("activeCount").textContent =
+        staffRecords.filter(s => s.employment_status === "Active").length;
+    }
+
+    function renderStaff() {
+      const search = $("searchInput").value.trim().toLowerCase();
+      const role = $("roleFilter").value;
+      const status = $("statusFilter").value;
+
+      const filtered = staffRecords.filter((staff) => {
+        const haystack = [
+          staff.staff_number, staff.full_name, staff.role_type,
+          staff.department, staff.specialty, staff.phone, staff.email
+        ].join(" ").toLowerCase();
+
+        return (!search || haystack.includes(search)) &&
+          (!role || staff.role_type === role) &&
+          (!status || staff.employment_status === status);
+      });
+
+      const tbody = $("staffTableBody");
+
+      if (filtered.length === 0) {
+        tbody.innerHTML =
+          '<tr><td colspan="7" class="empty">No matching staff records found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((staff) => {
+        const inactive = staff.employment_status !== "Active";
+        const department = [
+          staff.department || "",
+          staff.specialty || ""
+        ].filter(Boolean).map(escapeHTML).join(" / ") || "—";
+
+        const contact = [
+          staff.phone || "",
+          staff.email || ""
+        ].filter(Boolean).map(escapeHTML).join("<br>") || "—";
+
+        return `
+          <tr>
+            <td>${escapeHTML(staff.staff_number)}</td>
+            <td><strong>${escapeHTML(staff.full_name)}</strong></td>
+            <td>${escapeHTML(staff.role_type)}</td>
+            <td>${department}</td>
+            <td>${contact}</td>
+            <td><span class="badge ${inactive ? "inactive" : ""}">
+              ${escapeHTML(staff.employment_status)}
+            </span></td>
+            <td>
+              <div class="row-actions">
+                <button type="button" class="secondary"
+                  data-action="edit" data-id="${Number(staff.id)}">Edit</button>
+                <button type="button" class="danger"
+                  data-action="delete" data-id="${Number(staff.id)}">Delete</button>
+              </div>
+            </td>
+          </tr>`;
+      }).join("");
+    }
+
+    async function loadStaff() {
+      $("staffTableBody").innerHTML =
+        '<tr><td colspan="7" class="empty">Loading staff records...</td></tr>';
+
+      const { data, error } = await supabaseClient
+        .from("staff_members")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw error;
+      }
+
+      staffRecords = data || [];
+      updateStats();
+      renderStaff();
+    }
+
+    function resetForm() {
+      $("staffForm").reset();
+      $("staffId").value = "";
+      $("formTitle").textContent = "Register Doctor or Staff";
+      $("saveButton").textContent = "Register Staff";
+      $("employmentStatus").value = "Active";
+    }
+
+    async function saveStaff(event) {
+      event.preventDefault();
+      clearNotice();
+
+      const id = $("staffId").value;
+
+      const record = {
+        full_name: $("fullName").value.trim(),
+        role_type: $("roleType").value,
+        department: $("department").value.trim() || null,
+        specialty: $("specialty").value.trim() || null,
+        phone: $("phone").value.trim() || null,
+        email: $("email").value.trim() || null,
+        employment_status: $("employmentStatus").value,
+        updated_at: new Date().toISOString()
+      };
+
+      if (!record.full_name || !record.role_type) {
+        showNotice("Please complete the required fields.", "error");
+        return;
+      }
+
+      if (record.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(record.email)) {
+        showNotice("Please enter a valid email address.", "error");
+        return;
+      }
+
+      const button = $("saveButton");
+      button.disabled = true;
+      button.textContent = id ? "Saving Changes..." : "Registering...";
+
+      try {
+        let result;
+
+        if (id) {
+          result = await supabaseClient
+            .from("staff_members")
+            .update(record)
+            .eq("id", Number(id))
+            .select()
+            .single();
+        } else {
+          record.staff_number = makeStaffNumber();
+          result = await supabaseClient
+            .from("staff_members")
+            .insert(record)
+            .select()
+            .single();
+        }
+
+        if (result.error) {
+          throw result.error;
+        }
+
+        resetForm();
+        await loadStaff();
+
+        showNotice(
+          id
+            ? "Staff record updated successfully."
+            : "Staff member registered successfully. Staff number: " +
+              result.data.staff_number,
+          "success"
+        );
+      } catch (error) {
+        console.error("Save staff error:", error);
+        showNotice(
+          "Could not save the staff record: " +
+          (error.message || "Unknown error") +
+          ". Check your database table, administrator login and RLS policy.",
+          "error"
+        );
+      } finally {
+        button.disabled = false;
+        button.textContent = $("staffId").value
+          ? "Save Changes"
+          : "Register Staff";
+      }
+    }
+
+    function editStaff(id) {
+      const staff = staffRecords.find(item => Number(item.id) === id);
+      if (!staff) return;
+
+      $("staffId").value = staff.id;
+      $("fullName").value = staff.full_name || "";
+      $("roleType").value = staff.role_type || "";
+      $("department").value = staff.department || "";
+      $("specialty").value = staff.specialty || "";
+      $("phone").value = staff.phone || "";
+      $("email").value = staff.email || "";
+      $("employmentStatus").value = staff.employment_status || "Active";
+
+      $("formTitle").textContent = "Edit Staff Record";
+      $("saveButton").textContent = "Save Changes";
+      $("staffForm").scrollIntoView({ behavior: "smooth" });
+      showNotice(
+        "Editing " + staff.full_name + ". Make your changes and save them.",
+        "info"
+      );
+    }
+
+    async function deleteStaff(id) {
+      const staff = staffRecords.find(item => Number(item.id) === id);
+      if (!staff) return;
+
+      if (!confirm(
+        "Delete the staff record for " + staff.full_name +
+        " (" + staff.staff_number + ")? This cannot be undone."
+      )) return;
+
+      clearNotice();
+
+      try {
+        const { error } = await supabaseClient
+          .from("staff_members")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+
+        await loadStaff();
+        showNotice("Staff record deleted successfully.", "success");
+      } catch (error) {
+        console.error("Delete staff error:", error);
+        showNotice(
+          "Could not delete this record: " +
+          (error.message || "Unknown error"),
+          "error"
+        );
+      }
+    }
+
+    $("staffForm").addEventListener("submit", saveStaff);
+    $("clearButton").addEventListener("click", () => {
+      resetForm();
+      clearNotice();
+    });
+
+    $("searchInput").addEventListener("input", renderStaff);
+    $("roleFilter").addEventListener("change", renderStaff);
+    $("statusFilter").addEventListener("change", renderStaff);
+
+    $("staffTableBody").addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-action]");
+      if (!button) return;
+
+      const id = Number(button.dataset.id);
+      if (button.dataset.action === "edit") {
+        editStaff(id);
+      } else if (button.dataset.action === "delete") {
+        deleteStaff(id);
+      }
+    });
+
+    async function initialize() {
+      try {
+        supabaseClient = getClient();
+
+        const { data, error } = await supabaseClient.auth.getSession();
+        if (error) throw error;
+
+        if (!data.session) {
+          showNotice(
+            "Please log in with your MediCare administrator account first.",
+            "error"
+          );
+          $("staffTableBody").innerHTML =
+            '<tr><td colspan="7" class="empty">Administrator login required.</td></tr>';
+          return;
+        }
+
+        const role = data.session.user.app_metadata?.role;
+        if (role !== "admin") {
+          showNotice(
+            "Access denied. This page is restricted to hospital administrators.",
+            "error"
+          );
+          $("staffTableBody").innerHTML =
+            '<tr><td colspan="7" class="empty">Administrator access required.</td></tr>';
+          return;
+        }
+
+        await loadStaff();
+      } catch (error) {
+        console.error("Staff initialization error:", error);
+        showNotice(
+          "Could not load staff data: " +
+          (error.message || "Unknown error") +
+          " Check supabase-config.js, your login, the staff_members table and its RLS policy.",
+          "error"
+        );
+        $("staffTableBody").innerHTML =
+          '<tr><td colspan="7" class="empty">Staff records could not be loaded.</td></tr>';
+      }
+    }
+
+    initialize();
+  </script>
+</body>
+</html>
