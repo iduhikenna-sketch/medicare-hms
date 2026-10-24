@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <meta name="description" content="MediCare HMS — modern hospital services, medical departments, and convenient appointment booking.">
+
   <title>MediCare HMS | Smart Healthcare. Better Lives.</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <style>
@@ -131,6 +135,7 @@
     }
 
     /* HEADER */
+
     .topbar {
       background: var(--navy);
       color: #e7f1ff;
@@ -231,13 +236,19 @@
     }
 
     /* HERO */
+
     .hero {
       min-height: 570px;
       display: flex;
       align-items: center;
       color: white;
       background:
-        linear-gradient(90deg, rgba(5, 35, 75, 0.94) 0%, rgba(6, 57, 111, 0.77) 48%, rgba(5, 42, 81, 0.27) 100%),
+        linear-gradient(
+          90deg,
+          rgba(5, 35, 75, 0.94) 0%,
+          rgba(6, 57, 111, 0.77) 48%,
+          rgba(5, 42, 81, 0.27) 100%
+        ),
         url("https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=2000&q=85");
       background-position: center;
       background-size: cover;
@@ -302,7 +313,8 @@
       margin-right: 6px;
     }
 
-    /* FEATURE STRIP */
+    /* FEATURES */
+
     .features {
       position: relative;
       margin-top: -1px;
@@ -340,6 +352,7 @@
     }
 
     /* DEPARTMENTS */
+
     .departments {
       background: white;
     }
@@ -399,6 +412,7 @@
     }
 
     /* ABOUT */
+
     .about {
       background: #f4f8fd;
     }
@@ -490,6 +504,7 @@
     }
 
     /* APPOINTMENT BANNER */
+
     .appointment-section {
       padding: 75px 0;
     }
@@ -505,7 +520,11 @@
       gap: 30px;
       color: white;
       background:
-        linear-gradient(100deg, rgba(8, 59, 125, 0.98), rgba(18, 100, 216, 0.9)),
+        linear-gradient(
+          100deg,
+          rgba(8, 59, 125, 0.98),
+          rgba(18, 100, 216, 0.9)
+        ),
         url("https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1200&q=80");
       background-position: center;
       background-size: cover;
@@ -538,6 +557,7 @@
     }
 
     /* CONTACT */
+
     .contact-section {
       background: #f7faff;
     }
@@ -575,6 +595,7 @@
     }
 
     /* FOOTER */
+
     footer {
       background: #071f3d;
       color: #d5e4f7;
@@ -643,7 +664,8 @@
       color: #9bb2ce;
     }
 
-    /* RESPONSIVE MOBILE MENU */
+    /* RESPONSIVE */
+
     @media (max-width: 1000px) {
       .nav-links {
         gap: 13px;
@@ -837,6 +859,7 @@
 
   <header>
     <div class="container navbar">
+
       <a class="logo" href="#home" aria-label="MediCare HMS home">
         <span class="logo-icon"><i class="fa-solid fa-plus"></i></span>
         <span>
@@ -854,24 +877,32 @@
       </nav>
 
       <div class="nav-actions">
-        <a class="login-link" href="#contact">Login</a>
+        <a class="login-link" href="login.html">Login</a>
+
         <a class="btn" href="#appointment">
           <i class="fa-regular fa-calendar-check"></i>
           Book Appointment
         </a>
       </div>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+      >
         <i class="fa-solid fa-bars"></i>
       </button>
+
     </div>
   </header>
 
   <main>
-    <!-- HERO -->
+
     <section class="hero" id="home">
       <div class="container">
         <div class="hero-content">
+
           <div class="hero-label">
             <i class="fa-solid fa-circle-check"></i>
             Caring for you, every step of the way
@@ -893,6 +924,7 @@
               Book an Appointment
               <i class="fa-solid fa-arrow-right"></i>
             </a>
+
             <a class="btn btn-white" href="#departments">
               Explore Departments
             </a>
@@ -903,11 +935,11 @@
             <span><i class="fa-solid fa-check-circle"></i> Experienced professionals</span>
             <span><i class="fa-solid fa-check-circle"></i> Modern facilities</span>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- SIX HEALTHCARE FEATURES -->
     <section class="features" id="services">
       <div class="container feature-grid">
 
@@ -944,9 +976,9 @@
       </div>
     </section>
 
-    <!-- DEPARTMENTS -->
     <section class="section departments" id="departments">
       <div class="container">
+
         <div class="section-heading">
           <span class="eyebrow">Our Medical Expertise</span>
           <h2>Our Departments</h2>
@@ -1025,7 +1057,6 @@
       </div>
     </section>
 
-    <!-- ABOUT MEDICARE -->
     <section class="section about" id="about">
       <div class="container about-grid">
 
@@ -1036,6 +1067,7 @@
             alt="Doctor in a white medical coat"
             loading="lazy"
           >
+
           <div class="experience-badge">
             <strong><i class="fa-solid fa-heart-pulse"></i></strong>
             <span>Your health comes first</span>
@@ -1045,6 +1077,7 @@
         <div class="about-copy">
           <span class="eyebrow">About MediCare HMS</span>
           <h2>Your Health, Our Priority</h2>
+
           <p>
             At MediCare HMS, we believe healthcare should be accessible,
             organised, and centred on every patient's needs. Our goal is to
@@ -1052,58 +1085,75 @@
           </p>
 
           <div class="about-points">
+
             <div class="about-point">
               <i class="fa-solid fa-circle-check"></i>
-              <span><strong>Patient-centred care</strong><br>Respectful support tailored to individual needs.</span>
+              <span>
+                <strong>Patient-centred care</strong><br>
+                Respectful support tailored to individual needs.
+              </span>
             </div>
 
             <div class="about-point">
               <i class="fa-solid fa-circle-check"></i>
-              <span><strong>Dedicated professionals</strong><br>A collaborative approach to healthcare services.</span>
+              <span>
+                <strong>Dedicated professionals</strong><br>
+                A collaborative approach to healthcare services.
+              </span>
             </div>
 
             <div class="about-point">
               <i class="fa-solid fa-circle-check"></i>
-              <span><strong>Organised healthcare</strong><br>A vision for smoother appointments and patient services.</span>
+              <span>
+                <strong>Organised healthcare</strong><br>
+                A vision for smoother appointments and patient services.
+              </span>
             </div>
+
           </div>
 
           <a class="btn" href="#services">
-            Discover Our Services <i class="fa-solid fa-arrow-right"></i>
+            Discover Our Services
+            <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
 
       </div>
     </section>
 
-    <!-- APPOINTMENT BANNER -->
     <section class="appointment-section" id="appointment">
       <div class="container">
+
         <div class="appointment-banner">
           <div class="appointment-copy">
+
             <span class="eyebrow">We're Here for You</span>
             <h2>Book Your Appointment Online</h2>
+
             <p>
               Take the first step towards better health. Appointment booking
               will be connected to the MediCare hospital management system
               as development progresses.
             </p>
+
             <a class="btn btn-white" href="#contact">
               Get Appointment Information
               <i class="fa-solid fa-arrow-right"></i>
             </a>
+
           </div>
 
           <div class="appointment-art" aria-hidden="true">
             <i class="fa-solid fa-stethoscope"></i>
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- CONTACT -->
     <section class="section contact-section" id="contact">
       <div class="container">
+
         <div class="section-heading">
           <span class="eyebrow">Get in Touch</span>
           <h2>We're Here to Help</h2>
@@ -1114,6 +1164,7 @@
         </div>
 
         <div class="contact-grid">
+
           <div class="contact-card">
             <i class="fa-solid fa-location-dot"></i>
             <h3>Our Location</h3>
@@ -1131,14 +1182,16 @@
             <h3>Email Us</h3>
             <p>Official hospital email to be added</p>
           </div>
+
         </div>
       </div>
     </section>
+
   </main>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container">
+
       <div class="footer-grid">
 
         <div class="footer-brand">
@@ -1149,6 +1202,7 @@
               <small>SMART HEALTHCARE</small>
             </span>
           </a>
+
           <p>
             A modern hospital management system concept designed to bring
             healthcare services, departments, and patient support together.
@@ -1193,6 +1247,7 @@
         <span>&copy; <span id="year"></span> MediCare HMS. All rights reserved.</span>
         <span>Smart Healthcare. Better Lives.</span>
       </div>
+
     </div>
   </footer>
 
@@ -1202,7 +1257,9 @@
 
     menuToggle.addEventListener("click", function () {
       const isOpen = navLinks.classList.toggle("open");
+
       menuToggle.setAttribute("aria-expanded", String(isOpen));
+
       menuToggle.innerHTML = isOpen
         ? '<i class="fa-solid fa-xmark"></i>'
         : '<i class="fa-solid fa-bars"></i>';
@@ -1216,8 +1273,15 @@
       });
     });
 
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
   </script>
+
+  <!-- Supabase JavaScript library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Our Supabase configuration -->
+  <script src="supabase-config.js"></script>
 
 </body>
 </html>
