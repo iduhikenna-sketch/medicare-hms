@@ -97,6 +97,11 @@
       color: var(--danger);
     }
 
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .layout {
       display: grid;
       grid-template-columns: 230px minmax(0, 1fr);
@@ -445,11 +450,11 @@
         <a class="nav-link" href="admin-dashboard.html">Dashboard</a>
         <a class="nav-link active" href="patients.html">Patients</a>
         <a class="nav-link" href="appointments.html">Appointments</a>
-        <a class="nav-link" href="doctors.html">Doctors & Staff</a>
+        <a class="nav-link" href="doctors.html">Doctors &amp; Staff</a>
         <a class="nav-link" href="pharmacy.html">Pharmacy</a>
         <a class="nav-link" href="laboratory.html">Laboratory</a>
-        <a class="nav-link" href="wards.html">Wards & Admissions</a>
-        <a class="nav-link" href="billing.html">Billing & Payments</a>
+        <a class="nav-link" href="wards.html">Wards &amp; Admissions</a>
+        <a class="nav-link" href="billing.html">Billing &amp; Payments</a>
         <a class="nav-link" href="reports.html">Reports</a>
       </nav>
     </aside>
@@ -497,14 +502,26 @@
           <div class="form-grid">
             <div class="field">
               <label for="firstName">First Name *</label>
-              <input id="firstName" name="first_name" type="text"
-                     maxlength="100" autocomplete="given-name" required>
+              <input
+                id="firstName"
+                name="first_name"
+                type="text"
+                maxlength="100"
+                autocomplete="given-name"
+                required
+              >
             </div>
 
             <div class="field">
               <label for="lastName">Last Name *</label>
-              <input id="lastName" name="last_name" type="text"
-                     maxlength="100" autocomplete="family-name" required>
+              <input
+                id="lastName"
+                name="last_name"
+                type="text"
+                maxlength="100"
+                autocomplete="family-name"
+                required
+              >
             </div>
 
             <div class="field">
@@ -516,40 +533,63 @@
               <label for="sex">Sex</label>
               <select id="sex" name="sex">
                 <option value="">Select</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <option value="prefer_not_to_say">Prefer not to say</option>
               </select>
             </div>
 
             <div class="field">
               <label for="phone">Phone Number</label>
-              <input id="phone" name="phone" type="tel"
-                     maxlength="30" autocomplete="tel">
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                maxlength="30"
+                autocomplete="tel"
+              >
             </div>
 
             <div class="field">
               <label for="email">Email Address</label>
-              <input id="email" name="email" type="email"
-                     maxlength="254" autocomplete="email">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                maxlength="254"
+                autocomplete="email"
+              >
             </div>
 
             <div class="field full">
               <label for="address">Residential Address</label>
-              <textarea id="address" name="address"
-                        maxlength="1000" autocomplete="street-address"></textarea>
+              <textarea
+                id="address"
+                name="address"
+                maxlength="1000"
+                autocomplete="street-address"
+              ></textarea>
             </div>
 
             <div class="field">
               <label for="emergencyName">Emergency Contact Name</label>
-              <input id="emergencyName" name="emergency_contact_name"
-                     type="text" maxlength="200">
+              <input
+                id="emergencyName"
+                name="emergency_contact_name"
+                type="text"
+                maxlength="200"
+              >
             </div>
 
             <div class="field">
               <label for="emergencyPhone">Emergency Contact Phone</label>
-              <input id="emergencyPhone" name="emergency_contact_phone"
-                     type="tel" maxlength="30">
+              <input
+                id="emergencyPhone"
+                name="emergency_contact_phone"
+                type="tel"
+                maxlength="30"
+              >
             </div>
           </div>
 
@@ -568,6 +608,7 @@
       <section class="panel">
         <div class="panel-heading">
           <h2>Registered Patients</h2>
+
           <button class="btn btn-light" id="refreshButton" type="button">
             Refresh
           </button>
@@ -582,7 +623,9 @@
             aria-label="Search patients"
           >
 
-          <span class="loading" id="patientCountText">Loading patient records...</span>
+          <span class="loading" id="patientCountText">
+            Loading patient records...
+          </span>
         </div>
 
         <div class="table-wrap">
@@ -660,6 +703,7 @@
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
+
       const randomPart = crypto.randomUUID()
         .replace(/-/g, "")
         .substring(0, 8)
@@ -680,15 +724,34 @@
       return date.toLocaleDateString();
     }
 
+    function normalizeSex(value) {
+      if (!value) return "";
+
+      const normalized = String(value).trim().toLowerCase();
+
+      const allowedValues = [
+        "male",
+        "female",
+        "other",
+        "prefer_not_to_say"
+      ];
+
+      return allowedValues.includes(normalized) ? normalized : "";
+    }
+
     function updateStatistics() {
       document.getElementById("totalPatients").textContent =
         allPatients.length;
 
       document.getElementById("malePatients").textContent =
-        allPatients.filter(patient => patient.sex === "Male").length;
+        allPatients.filter(patient =>
+          String(patient.sex || "").toLowerCase() === "male"
+        ).length;
 
       document.getElementById("femalePatients").textContent =
-        allPatients.filter(patient => patient.sex === "Female").length;
+        allPatients.filter(patient =>
+          String(patient.sex || "").toLowerCase() === "female"
+        ).length;
     }
 
     function renderPatients() {
@@ -723,31 +786,48 @@
         return;
       }
 
-      tableBody.innerHTML = filteredPatients.map(patient => `
-        <tr>
-          <td>
-            <span class="badge">${escapeHTML(patient.patient_number)}</span>
-          </td>
-          <td>
-            <strong>
-              ${escapeHTML(patient.first_name)} ${escapeHTML(patient.last_name)}
-            </strong>
-          </td>
-          <td>${escapeHTML(patient.sex || "—")}</td>
-          <td>${escapeHTML(patient.phone || "—")}</td>
-          <td>${escapeHTML(patient.email || "—")}</td>
-          <td>${escapeHTML(formatDate(patient.created_at))}</td>
-        </tr>
-      `).join("");
+      tableBody.innerHTML = filteredPatients.map(patient => {
+        const displayedSex = patient.sex
+          ? String(patient.sex)
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, letter => letter.toUpperCase())
+          : "—";
+
+        return `
+          <tr>
+            <td>
+              <span class="badge">
+                ${escapeHTML(patient.patient_number)}
+              </span>
+            </td>
+
+            <td>
+              <strong>
+                ${escapeHTML(patient.first_name)}
+                ${escapeHTML(patient.last_name)}
+              </strong>
+            </td>
+
+            <td>${escapeHTML(displayedSex)}</td>
+            <td>${escapeHTML(patient.phone || "—")}</td>
+            <td>${escapeHTML(patient.email || "—")}</td>
+            <td>${escapeHTML(formatDate(patient.created_at))}</td>
+          </tr>
+        `;
+      }).join("");
     }
 
     async function checkAdminAccess() {
-      if (!window.supabase || typeof medicareSupabase === "undefined") {
+      if (
+        !window.supabase ||
+        typeof medicareSupabase === "undefined"
+      ) {
         showMessage(
           pageMessage,
           "Supabase configuration is missing. Check supabase-config.js and make sure your Publishable key is configured.",
           "error"
         );
+
         return false;
       }
 
@@ -771,37 +851,52 @@
     async function loadPatients() {
       if (!isAdmin) return;
 
+      const refreshButton = document.getElementById("refreshButton");
+      refreshButton.disabled = true;
+
       tableBody.innerHTML = `
         <tr>
-          <td colspan="6" class="empty-state">Loading patient records...</td>
+          <td colspan="6" class="empty-state">
+            Loading patient records...
+          </td>
         </tr>
       `;
 
-      const { data, error } = await medicareSupabase
-        .from("patients")
-        .select(
-          "id, patient_number, first_name, last_name, sex, phone, email, created_at"
-        )
-        .order("created_at", { ascending: false })
-        .limit(500);
+      try {
+        const { data, error } = await medicareSupabase
+          .from("patients")
+          .select(
+            "id, patient_number, first_name, last_name, sex, phone, email, created_at"
+          )
+          .order("created_at", { ascending: false })
+          .limit(500);
 
-      if (error) {
+        if (error) {
+          throw error;
+        }
+
+        allPatients = data || [];
+
+        updateStatistics();
+        renderPatients();
+        hideMessage(pageMessage);
+
+      } catch (error) {
         allPatients = [];
+
         updateStatistics();
         renderPatients();
 
         showMessage(
           pageMessage,
-          "Could not load patient records: " + error.message,
+          "Could not load patient records: " +
+            (error.message || "Unknown error"),
           "error"
         );
-        return;
-      }
 
-      allPatients = data || [];
-      updateStatistics();
-      renderPatients();
-      hideMessage(pageMessage);
+      } finally {
+        refreshButton.disabled = false;
+      }
     }
 
     patientForm.addEventListener("submit", async function (event) {
@@ -818,15 +913,33 @@
 
       hideMessage(formMessage);
 
-      const firstName = document.getElementById("firstName").value.trim();
-      const lastName = document.getElementById("lastName").value.trim();
-      const dateOfBirth = document.getElementById("dateOfBirth").value;
-      const sex = document.getElementById("sex").value;
-      const phone = document.getElementById("phone").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const address = document.getElementById("address").value.trim();
-      const emergencyName = document.getElementById("emergencyName").value.trim();
-      const emergencyPhone = document.getElementById("emergencyPhone").value.trim();
+      const firstName =
+        document.getElementById("firstName").value.trim();
+
+      const lastName =
+        document.getElementById("lastName").value.trim();
+
+      const dateOfBirth =
+        document.getElementById("dateOfBirth").value;
+
+      const sex = normalizeSex(
+        document.getElementById("sex").value
+      );
+
+      const phone =
+        document.getElementById("phone").value.trim();
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      const address =
+        document.getElementById("address").value.trim();
+
+      const emergencyName =
+        document.getElementById("emergencyName").value.trim();
+
+      const emergencyPhone =
+        document.getElementById("emergencyPhone").value.trim();
 
       if (!firstName || !lastName) {
         showMessage(
@@ -837,7 +950,14 @@
         return;
       }
 
-      if (dateOfBirth && dateOfBirth > new Date().toISOString().slice(0, 10)) {
+      const today = new Date();
+      const todayString = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, "0"),
+        String(today.getDate()).padStart(2, "0")
+      ].join("-");
+
+      if (dateOfBirth && dateOfBirth > todayString) {
         showMessage(
           formMessage,
           "Date of birth cannot be in the future.",
@@ -880,44 +1000,52 @@
         );
 
         patientForm.reset();
+
         await loadPatients();
 
       } catch (error) {
         showMessage(
           formMessage,
-          "Patient registration failed: " + (error.message || "Unknown error"),
+          "Patient registration failed: " +
+            (error.message || "Unknown error"),
           "error"
         );
+
       } finally {
         saveButton.disabled = false;
         saveButton.textContent = "Save Patient";
       }
     });
 
-    document.getElementById("clearButton").addEventListener("click", function () {
-      hideMessage(formMessage);
-    });
-
-    document.getElementById("newPatientButton").addEventListener("click", function () {
-      document.getElementById("registrationPanel").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+    document.getElementById("clearButton")
+      .addEventListener("click", function () {
+        hideMessage(formMessage);
       });
 
-      document.getElementById("firstName").focus();
-    });
+    document.getElementById("newPatientButton")
+      .addEventListener("click", function () {
+        document.getElementById("registrationPanel")
+          .scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
 
-    document.getElementById("refreshButton").addEventListener("click", loadPatients);
+        document.getElementById("firstName").focus();
+      });
+
+    document.getElementById("refreshButton")
+      .addEventListener("click", loadPatients);
 
     searchInput.addEventListener("input", renderPatients);
 
-    document.getElementById("logoutButton").addEventListener("click", async function () {
-      if (typeof medicareSupabase !== "undefined") {
-        await medicareSupabase.auth.signOut();
-      }
+    document.getElementById("logoutButton")
+      .addEventListener("click", async function () {
+        if (typeof medicareSupabase !== "undefined") {
+          await medicareSupabase.auth.signOut();
+        }
 
-      window.location.replace("login.html");
-    });
+        window.location.replace("login.html");
+      });
 
     (async function initializePage() {
       const authorized = await checkAdminAccess();
