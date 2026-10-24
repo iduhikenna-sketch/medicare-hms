@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Management | MediCare HMS</title>
+
+  <style>
+    :root {
+      --primary: #1769e0;
+      --primary-dark: #1052b5;
+      --background: #f4f7fb;
+      --white: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --success: #15803d;
+      --danger: #dc2626;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      background: var(--white);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      color: var(--primary);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .brand span {
+      color: var(--text);
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-light {
+      background: #eaf1fb;
+      color: var(--primary-dark);
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: var(--danger);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      min-height: calc(100vh - 70px);
+    }
+
+    .sidebar {
+      background: #102a56;
+      color: white;
+      padding: 24px 14px;
+    }
+
+    .sidebar h3 {
+      font-size: 12px;
+      color: #b9c9e3;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 4px 12px 15px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      text-decoration: none;
+      color: #e5edf9;
+      font-size: 14px;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #24549a;
+      color: white;
+    }
+
+    main {
+      padding: 28px;
+      min-width: 0;
+    }
+
+    .page-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .page-heading h1 {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .page-heading p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+    }
+
+    .stat-card p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-card h2 {
+      font-size: 27px;
+    }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 24px;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+    }
+
+    .panel-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .panel-heading h2 {
+      font-size: 19px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: white;
+      color: var(--text);
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(23, 105, 224, 0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 85px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .message.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .message.info {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .table-toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .search-box {
+      max-width: 360px;
+      min-width: 220px;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th, td {
+      padding: 13px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #475569;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    td small {
+      display: block;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 20px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 12px;
+    }
+
+    .loading {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        padding: 12px;
+      }
+
+      .sidebar h3 {
+        margin-top: 4px;
+      }
+
+      .sidebar nav {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+      }
+
+      .nav-link {
+        white-space: nowrap;
+        margin: 0;
+      }
+
+      main {
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .topbar {
+        padding: 14px 16px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 15px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .page-heading h1 {
+        font-size: 24px;
+      }
+
+      .search-box {
+        max-width: none;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">MediCare <span>HMS</span></div>
+
+    <div class="top-actions">
+      <a class="btn btn-light" href="admin-dashboard.html">
+        Dashboard
+      </a>
+
+      <button class="btn btn-danger" id="logoutButton" type="button">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <h3>Main Menu</h3>
+
+      <nav>
+        <a class="nav-link" href="admin-dashboard.html">Dashboard</a>
+        <a class="nav-link active" href="patients.html">Patients</a>
+        <a class="nav-link" href="appointments.html">Appointments</a>
+        <a class="nav-link" href="doctors.html">Doctors & Staff</a>
+        <a class="nav-link" href="pharmacy.html">Pharmacy</a>
+        <a class="nav-link" href="laboratory.html">Laboratory</a>
+        <a class="nav-link" href="wards.html">Wards & Admissions</a>
+        <a class="nav-link" href="billing.html">Billing & Payments</a>
+        <a class="nav-link" href="reports.html">Reports</a>
+      </nav>
+    </aside>
+
+    <main>
+      <div class="page-heading">
+        <div>
+          <h1>Patient Management</h1>
+          <p>Register patients and manage their basic records.</p>
+        </div>
+
+        <button class="btn btn-primary" id="newPatientButton" type="button">
+          + Register Patient
+        </button>
+      </div>
+
+      <div id="pageMessage" class="message" role="status" aria-live="polite"></div>
+
+      <section class="stats">
+        <div class="stat-card">
+          <p>Total Patients</p>
+          <h2 id="totalPatients">—</h2>
+        </div>
+
+        <div class="stat-card">
+          <p>Male Patients</p>
+          <h2 id="malePatients">—</h2>
+        </div>
+
+        <div class="stat-card">
+          <p>Female Patients</p>
+          <h2 id="femalePatients">—</h2>
+        </div>
+      </section>
+
+      <section class="panel" id="registrationPanel">
+        <div class="panel-heading">
+          <h2>Register New Patient</h2>
+          <span class="badge">Patient Records</span>
+        </div>
+
+        <div id="formMessage" class="message" role="status" aria-live="polite"></div>
+
+        <form id="patientForm">
+          <div class="form-grid">
+            <div class="field">
+              <label for="firstName">First Name *</label>
+              <input id="firstName" name="first_name" type="text"
+                     maxlength="100" autocomplete="given-name" required>
+            </div>
+
+            <div class="field">
+              <label for="lastName">Last Name *</label>
+              <input id="lastName" name="last_name" type="text"
+                     maxlength="100" autocomplete="family-name" required>
+            </div>
+
+            <div class="field">
+              <label for="dateOfBirth">Date of Birth</label>
+              <input id="dateOfBirth" name="date_of_birth" type="date">
+            </div>
+
+            <div class="field">
+              <label for="sex">Sex</label>
+              <select id="sex" name="sex">
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone Number</label>
+              <input id="phone" name="phone" type="tel"
+                     maxlength="30" autocomplete="tel">
+            </div>
+
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email"
+                     maxlength="254" autocomplete="email">
+            </div>
+
+            <div class="field full">
+              <label for="address">Residential Address</label>
+              <textarea id="address" name="address"
+                        maxlength="1000" autocomplete="street-address"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="emergencyName">Emergency Contact Name</label>
+              <input id="emergencyName" name="emergency_contact_name"
+                     type="text" maxlength="200">
+            </div>
+
+            <div class="field">
+              <label for="emergencyPhone">Emergency Contact Phone</label>
+              <input id="emergencyPhone" name="emergency_contact_phone"
+                     type="tel" maxlength="30">
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" id="saveButton" type="submit">
+              Save Patient
+            </button>
+
+            <button class="btn btn-light" id="clearButton" type="reset">
+              Clear Form
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Registered Patients</h2>
+          <button class="btn btn-light" id="refreshButton" type="button">
+            Refresh
+          </button>
+        </div>
+
+        <div class="table-toolbar">
+          <input
+            class="search-box"
+            id="searchInput"
+            type="search"
+            placeholder="Search name, patient number, phone or email..."
+            aria-label="Search patients"
+          >
+
+          <span class="loading" id="patientCountText">Loading patient records...</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Patient Number</th>
+                <th>Patient Name</th>
+                <th>Sex</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Date Registered</th>
+              </tr>
+            </thead>
+
+            <tbody id="patientsTableBody">
+              <tr>
+                <td colspan="6" class="empty-state">Loading records...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer>
+        MediCare HMS &copy; <span id="currentYear"></span>
+        — Hospital Management System
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <script>
+    const pageMessage = document.getElementById("pageMessage");
+    const formMessage = document.getElementById("formMessage");
+    const patientForm = document.getElementById("patientForm");
+    const saveButton = document.getElementById("saveButton");
+    const tableBody = document.getElementById("patientsTableBody");
+    const searchInput = document.getElementById("searchInput");
+
+    let allPatients = [];
+    let isAdmin = false;
+
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+    function showMessage(element, message, type) {
+      element.textContent = message;
+      element.className = "message show " + type;
+    }
+
+    function hideMessage(element) {
+      element.textContent = "";
+      element.className = "message";
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, function (character) {
+        const replacements = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        };
+
+        return replacements[character];
+      });
+    }
+
+    function makePatientNumber() {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const randomPart = crypto.randomUUID()
+        .replace(/-/g, "")
+        .substring(0, 8)
+        .toUpperCase();
+
+      return `MCH-${year}${month}${day}-${randomPart}`;
+    }
+
+    function formatDate(value) {
+      if (!value) return "—";
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return "—";
+      }
+
+      return date.toLocaleDateString();
+    }
+
+    function updateStatistics() {
+      document.getElementById("totalPatients").textContent =
+        allPatients.length;
+
+      document.getElementById("malePatients").textContent =
+        allPatients.filter(patient => patient.sex === "Male").length;
+
+      document.getElementById("femalePatients").textContent =
+        allPatients.filter(patient => patient.sex === "Female").length;
+    }
+
+    function renderPatients() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+
+      const filteredPatients = allPatients.filter(patient => {
+        const searchableText = [
+          patient.patient_number,
+          patient.first_name,
+          patient.last_name,
+          patient.sex,
+          patient.phone,
+          patient.email
+        ].join(" ").toLowerCase();
+
+        return searchableText.includes(searchTerm);
+      });
+
+      document.getElementById("patientCountText").textContent =
+        `${filteredPatients.length} patient(s) shown`;
+
+      if (filteredPatients.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="6" class="empty-state">
+              ${allPatients.length === 0
+                ? "No patient records yet. Register your first patient above."
+                : "No patients match your search."}
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = filteredPatients.map(patient => `
+        <tr>
+          <td>
+            <span class="badge">${escapeHTML(patient.patient_number)}</span>
+          </td>
+          <td>
+            <strong>
+              ${escapeHTML(patient.first_name)} ${escapeHTML(patient.last_name)}
+            </strong>
+          </td>
+          <td>${escapeHTML(patient.sex || "—")}</td>
+          <td>${escapeHTML(patient.phone || "—")}</td>
+          <td>${escapeHTML(patient.email || "—")}</td>
+          <td>${escapeHTML(formatDate(patient.created_at))}</td>
+        </tr>
+      `).join("");
+    }
+
+    async function checkAdminAccess() {
+      if (!window.supabase || typeof medicareSupabase === "undefined") {
+        showMessage(
+          pageMessage,
+          "Supabase configuration is missing. Check supabase-config.js and make sure your Publishable key is configured.",
+          "error"
+        );
+        return false;
+      }
+
+      const { data, error } = await medicareSupabase.auth.getUser();
+
+      if (error || !data.user) {
+        window.location.replace("login.html");
+        return false;
+      }
+
+      if (data.user.app_metadata?.role !== "admin") {
+        await medicareSupabase.auth.signOut();
+        window.location.replace("login.html");
+        return false;
+      }
+
+      isAdmin = true;
+      return true;
+    }
+
+    async function loadPatients() {
+      if (!isAdmin) return;
+
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="6" class="empty-state">Loading patient records...</td>
+        </tr>
+      `;
+
+      const { data, error } = await medicareSupabase
+        .from("patients")
+        .select(
+          "id, patient_number, first_name, last_name, sex, phone, email, created_at"
+        )
+        .order("created_at", { ascending: false })
+        .limit(500);
+
+      if (error) {
+        allPatients = [];
+        updateStatistics();
+        renderPatients();
+
+        showMessage(
+          pageMessage,
+          "Could not load patient records: " + error.message,
+          "error"
+        );
+        return;
+      }
+
+      allPatients = data || [];
+      updateStatistics();
+      renderPatients();
+      hideMessage(pageMessage);
+    }
+
+    patientForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      if (!isAdmin) {
+        showMessage(
+          formMessage,
+          "Your administrator session is not ready. Please sign in again.",
+          "error"
+        );
+        return;
+      }
+
+      hideMessage(formMessage);
+
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const dateOfBirth = document.getElementById("dateOfBirth").value;
+      const sex = document.getElementById("sex").value;
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const emergencyName = document.getElementById("emergencyName").value.trim();
+      const emergencyPhone = document.getElementById("emergencyPhone").value.trim();
+
+      if (!firstName || !lastName) {
+        showMessage(
+          formMessage,
+          "Please enter the patient's first name and last name.",
+          "error"
+        );
+        return;
+      }
+
+      if (dateOfBirth && dateOfBirth > new Date().toISOString().slice(0, 10)) {
+        showMessage(
+          formMessage,
+          "Date of birth cannot be in the future.",
+          "error"
+        );
+        return;
+      }
+
+      const patient = {
+        patient_number: makePatientNumber(),
+        first_name: firstName,
+        last_name: lastName,
+        date_of_birth: dateOfBirth || null,
+        sex: sex || null,
+        phone: phone || null,
+        email: email || null,
+        address: address || null,
+        emergency_contact_name: emergencyName || null,
+        emergency_contact_phone: emergencyPhone || null
+      };
+
+      saveButton.disabled = true;
+      saveButton.textContent = "Saving...";
+
+      try {
+        const { data, error } = await medicareSupabase
+          .from("patients")
+          .insert([patient])
+          .select("patient_number")
+          .single();
+
+        if (error) {
+          throw error;
+        }
+
+        showMessage(
+          formMessage,
+          `Patient registered successfully. Patient number: ${data.patient_number}`,
+          "success"
+        );
+
+        patientForm.reset();
+        await loadPatients();
+
+      } catch (error) {
+        showMessage(
+          formMessage,
+          "Patient registration failed: " + (error.message || "Unknown error"),
+          "error"
+        );
+      } finally {
+        saveButton.disabled = false;
+        saveButton.textContent = "Save Patient";
+      }
+    });
+
+    document.getElementById("clearButton").addEventListener("click", function () {
+      hideMessage(formMessage);
+    });
+
+    document.getElementById("newPatientButton").addEventListener("click", function () {
+      document.getElementById("registrationPanel").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      document.getElementById("firstName").focus();
+    });
+
+    document.getElementById("refreshButton").addEventListener("click", loadPatients);
+
+    searchInput.addEventListener("input", renderPatients);
+
+    document.getElementById("logoutButton").addEventListener("click", async function () {
+      if (typeof medicareSupabase !== "undefined") {
+        await medicareSupabase.auth.signOut();
+      }
+
+      window.location.replace("login.html");
+    });
+
+    (async function initializePage() {
+      const authorized = await checkAdminAccess();
+
+      if (authorized) {
+        await loadPatients();
+      }
+    })();
+  </script>
+</body>
+</html>
