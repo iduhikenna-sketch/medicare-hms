@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wards & Admissions | MediCare HMS</title>
+
+  <style>
+    :root {
+      --navy: #102b46;
+      --blue: #1769aa;
+      --light: #f2f6fb;
+      --white: #ffffff;
+      --gold: #e6b84b;
+      --green: #16845b;
+      --red: #c0392b;
+      --border: #dce5ef;
+      --text: #24364b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--light);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      color: #d6e4f2;
+      font-size: 13px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button, .button {
+      border: 0;
+      border-radius: 7px;
+      padding: 11px 15px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 13px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .blue {
+      background: var(--blue);
+      color: white;
+    }
+
+    .light-button {
+      background: white;
+      color: var(--navy);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px 35px;
+    }
+
+    .notice {
+      background: #e7f2ff;
+      border-left: 4px solid var(--blue);
+      padding: 13px;
+      border-radius: 5px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .message.success {
+      display: block;
+      background: #e6f7ef;
+      color: #116442;
+    }
+
+    .message.error {
+      display: block;
+      background: #fdecea;
+      color: #9f271d;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .stat, .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      box-shadow: 0 3px 12px rgba(16, 43, 70, 0.04);
+    }
+
+    .stat {
+      padding: 18px;
+    }
+
+    .stat span {
+      display: block;
+      color: #61748a;
+      font-size: 13px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 27px;
+      margin-top: 8px;
+      color: var(--navy);
+    }
+
+    .panel {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .panel h2 {
+      margin: 0 0 17px;
+      font-size: 19px;
+      color: var(--navy);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #ccd8e5;
+      border-radius: 6px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 75px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+    }
+
+    .search {
+      max-width: 320px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 700px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    th {
+      background: #f5f8fc;
+      color: var(--navy);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 20px;
+      background: #e6f7ef;
+      color: #116442;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .badge.occupied {
+      background: #fff0d1;
+      color: #855b00;
+    }
+
+    .badge.discharged {
+      background: #e8edf3;
+      color: #536579;
+    }
+
+    .small-button {
+      padding: 7px 9px;
+      margin: 2px;
+      font-size: 12px;
+    }
+
+    .muted {
+      color: #6b7d90;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #6b7d90;
+      font-size: 12px;
+    }
+
+    @media (max-width: 800px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      header {
+        padding: 16px;
+      }
+
+      header h1 {
+        font-size: 19px;
+      }
+
+      .stats, .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .panel {
+        padding: 15px;
+      }
+
+      .search {
+        max-width: none;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div>
+      <h1>🏥 MediCare — Wards & Admissions</h1>
+      <p>Manage hospital wards, beds, and patient admissions</p>
+    </div>
+
+    <div class="header-actions">
+      <a class="button light-button" href="admin-dashboard.html">← Dashboard</a>
+      <button class="gold" id="logoutButton">Log Out</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="message" class="message" role="status"></div>
+
+    <div class="notice">
+      <strong>Patient safety:</strong>
+      Admit patients only with authorization from appropriate hospital staff.
+      Confirm patient identity, ward availability, and clinical requirements
+      before assigning a bed.
+    </div>
+
+    <section class="stats">
+      <div class="stat">
+        <span>Total Wards</span>
+        <strong id="totalWards">—</strong>
+      </div>
+
+      <div class="stat">
+        <span>Total Beds</span>
+        <strong id="totalBeds">—</strong>
+      </div>
+
+      <div class="stat">
+        <span>Available Beds</span>
+        <strong id="availableBeds">—</strong>
+      </div>
+
+      <div class="stat">
+        <span>Active Admissions</span>
+        <strong id="activeAdmissions">—</strong>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>➕ Register a Ward</h2>
+
+      <form id="wardForm">
+        <div class="form-grid">
+          <div>
+            <label for="wardName">Ward Name *</label>
+            <input id="wardName" required maxlength="100"
+                   placeholder="e.g. Medical Ward A">
+          </div>
+
+          <div>
+            <label for="wardType">Ward Type *</label>
+            <select id="wardType" required>
+              <option value="">Select type</option>
+              <option>General</option>
+              <option>Medical</option>
+              <option>Surgical</option>
+              <option>Maternity</option>
+              <option>Pediatric</option>
+              <option>Intensive Care</option>
+              <option>Emergency</option>
+              <option>Private</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="wardCapacity">Number of Beds *</label>
+            <input id="wardCapacity" type="number" required
+                   min="1" max="500" step="1" value="10">
+          </div>
+
+          <div class="field full">
+            <label for="wardDescription">Description (optional)</label>
+            <textarea id="wardDescription" maxlength="500"
+                      placeholder="Ward location or other details"></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="blue" type="submit">Save Ward & Create Beds</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <h2>🛏️ Ward & Bed Inventory</h2>
+        <input class="search" id="wardSearch"
+               placeholder="Search wards or beds...">
+      </div>
+
+      <p class="muted">
+        Beds are created automatically when a ward is registered.
+        A bed assigned to an active admission cannot be assigned again.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ward</th>
+              <th>Type</th>
+              <th>Bed</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="bedsTable">
+            <tr><td colspan="5">Loading ward inventory...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>➕ Admit a Patient</h2>
+
+      <form id="admissionForm">
+        <div class="form-grid">
+          <div>
+            <label for="patientId">Registered Patient *</label>
+            <select id="patientId" required>
+              <option value="">Loading patients...</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="admissionWard">Ward *</label>
+            <select id="admissionWard" required>
+              <option value="">Select ward</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="admissionBed">Available Bed *</label>
+            <select id="admissionBed" required>
+              <option value="">Select ward first</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="admissionDate">Admission Date *</label>
+            <input id="admissionDate" type="date" required>
+          </div>
+
+          <div>
+            <label for="attendingDoctor">Attending Doctor</label>
+            <input id="attendingDoctor" maxlength="150"
+                   placeholder="Doctor's name">
+          </div>
+
+          <div>
+            <label for="admissionType">Admission Type *</label>
+            <select id="admissionType" required>
+              <option value="">Select type</option>
+              <option>Emergency</option>
+              <option>Planned</option>
+              <option>Transfer</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="admissionNotes">Admission Notes</label>
+            <textarea id="admissionNotes" maxlength="2000"
+                      placeholder="Relevant admission notes"></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="blue" type="submit">Admit Patient</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <h2>📋 Admission Records</h2>
+        <input class="search" id="admissionSearch"
+               placeholder="Search admissions...">
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Ward</th>
+              <th>Bed</th>
+              <th>Admission Date</th>
+              <th>Doctor</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="admissionsTable">
+            <tr><td colspan="7">Loading admissions...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    MediCare Hospital Management System · Wards & Admissions
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <script>
+    let db;
+    let wards = [];
+    let beds = [];
+    let patients = [];
+    let admissions = [];
+
+    const $ = id => document.getElementById(id);
+
+    function showMessage(message, type = "success") {
+      const box = $("message");
+      box.textContent = message;
+      box.className = "message " + type;
+      box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function clearMessage() {
+      $("message").textContent = "";
+      $("message").className = "message";
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[character]);
+    }
+
+    function getClient() {
+      if (window.supabaseClient) return window.supabaseClient;
+      if (window.supabase && typeof window.supabase.from === "function") {
+        return window.supabase;
+      }
+
+      const url =
+        window.SUPABASE_URL ||
+        window.supabaseUrl ||
+        window.SUPABASE_CONFIG?.url;
+
+      const key =
+        window.SUPABASE_ANON_KEY ||
+        window.supabaseAnonKey ||
+        window.SUPABASE_CONFIG?.anonKey;
+
+      if (url && key && window.supabase?.createClient) {
+        return window.supabase.createClient(url, key);
+      }
+
+      throw new Error(
+        "Could not find your Supabase client. Check supabase-config.js."
+      );
+    }
+
+    async function checkAdmin() {
+      const { data, error } = await db.auth.getSession();
+
+      if (error) throw error;
+
+      const session = data.session;
+      if (!session) {
+        location.href = "login.html";
+        return false;
+      }
+
+      const user = session.user;
+      const role =
+        user.app_metadata?.role ||
+        user.user_metadata?.role ||
+        "";
+
+      if (role.toLowerCase() !== "admin") {
+        document.body.innerHTML = `
+          <main style="max-width:650px;margin:60px auto;padding:20px">
+            <h2>Administrator access required</h2>
+            <p>Your signed-in account does not have the administrator role.</p>
+            <a href="admin-dashboard.html">Return to dashboard</a>
+          </main>`;
+        return false;
+      }
+
+      return true;
+    }
+
+    async function loadData() {
+      clearMessage();
+
+      const results = await Promise.all([
+        db.from("wards").select("*").order("created_at", { ascending: false }),
+        db.from("beds").select("*").order("bed_number"),
+        db.from("patients").select("*"),
+        db.from("admissions").select("*").order("admission_date", { ascending: false })
+      ]);
+
+      const names = ["wards", "beds", "patients", "admissions"];
+      const failures = results
+        .map((result, index) => result.error
+          ? names[index] + ": " + result.error.message
+          : null)
+        .filter(Boolean);
+
+      if (failures.length) {
+        throw new Error(
+          "Database setup is incomplete. " + failures.join(" | ")
+        );
+      }
+
+      wards = results[0].data || [];
+      beds = results[1].data || [];
+      patients = results[2].data || [];
+      admissions = results[3].data || [];
+
+      renderStats();
+      renderBeds();
+      renderPatients();
+      renderWardOptions();
+      renderAdmissions();
+    }
+
+    function renderStats() {
+      $("totalWards").textContent = wards.length;
+      $("totalBeds").textContent = beds.length;
+
+      $("availableBeds").textContent = beds.filter(
+        bed => bed.status === "Available"
+      ).length;
+
+      $("activeAdmissions").textContent = admissions.filter(
+        admission => admission.status === "Admitted"
+      ).length;
+    }
+
+    function getWard(wardId) {
+      return wards.find(ward => String(ward.id) === String(wardId));
+    }
+
+    function getPatient(patientId) {
+      return patients.find(patient =>
+        String(patient.id) === String(patientId)
+      );
+    }
+
+    function patientName(patient) {
+      if (!patient) return "Unknown patient";
+
+      const fullName = [
+        patient.first_name,
+        patient.middle_name,
+        patient.last_name
+      ].filter(Boolean).join(" ");
+
+      return fullName ||
+        patient.full_name ||
+        patient.name ||
+        patient.patient_name ||
+        ("Patient #" + patient.id);
+    }
+
+    function renderBeds() {
+      const search = $("wardSearch").value.toLowerCase().trim();
+      const body = $("bedsTable");
+
+      const rows = beds.filter(bed => {
+        const ward = getWard(bed.ward_id);
+        const text = [
+          ward?.name,
+          ward?.ward_name,
+          ward?.ward_type,
+          bed.bed_number,
+          bed.status
+        ].join(" ").toLowerCase();
+
+        return text.includes(search);
+      });
+
+      if (!rows.length) {
+        body.innerHTML = `
+          <tr><td colspan="5">No beds found. Register a ward above to create beds.</td></tr>`;
+        return;
+      }
+
+      body.innerHTML = rows.map(bed => {
+        const ward = getWard(bed.ward_id);
+        const status = bed.status || "Unknown";
+        const available = status === "Available";
+
+        return `
+          <tr>
+            <td>${escapeHTML(ward?.name || ward?.ward_name || "Unknown ward")}</td>
+            <td>${escapeHTML(ward?.ward_type || "—")}</td>
+            <td>${escapeHTML(bed.bed_number)}</td>
+            <td><span class="badge ${available ? "" : "occupied"}">
+              ${escapeHTML(status)}</span></td>
+            <td>${available ? "Ready for admission" : "In use / unavailable"}</td>
+          </tr>`;
+      }).join("");
+    }
+
+    function renderPatients() {
+      const select = $("patientId");
+      const currentValue = select.value;
+
+      select.innerHTML =
+        '<option value="">Select registered patient</option>' +
+        patients.map(patient => `
+          <option value="${escapeHTML(patient.id)}">
+            ${escapeHTML(patientName(patient))}
+            ${patient.patient_number
+              ? " — " + escapeHTML(patient.patient_number)
+              : ""}
+          </option>
+        `).join("");
+
+      if (patients.some(p => String(p.id) === currentValue)) {
+        select.value = currentValue;
+      }
+    }
+
+    function renderWardOptions() {
+      const select = $("admissionWard");
+      const currentValue = select.value;
+
+      select.innerHTML =
+        '<option value="">Select ward</option>' +
+        wards.map(ward => `
+          <option value="${escapeHTML(ward.id)}">
+            ${escapeHTML(ward.name || ward.ward_name)}
+            (${escapeHTML(ward.ward_type || "General")})
+          </option>
+        `).join("");
+
+      if (wards.some(w => String(w.id) === currentValue)) {
+        select.value = currentValue;
+      }
+
+      renderBedOptions();
+    }
+
+    function renderBedOptions() {
+      const wardId = $("admissionWard").value;
+      const select = $("admissionBed");
+
+      const availableBeds = beds.filter(bed =>
+        String(bed.ward_id) === String(wardId) &&
+        bed.status === "Available"
+      );
+
+      select.innerHTML = !wardId
+        ? '<option value="">Select ward first</option>'
+        : '<option value="">Select available bed</option>' +
+          availableBeds.map(bed => `
+            <option value="${escapeHTML(bed.id)}">
+              ${escapeHTML(bed.bed_number)}
+            </option>
+          `).join("");
+    }
+
+    function renderAdmissions() {
+      const search = $("admissionSearch").value.toLowerCase().trim();
+      const body = $("admissionsTable");
+
+      const rows = admissions.filter(admission => {
+        const patient = getPatient(admission.patient_id);
+        const ward = getWard(admission.ward_id);
+        const bed = beds.find(item =>
+          String(item.id) === String(admission.bed_id)
+        );
+
+        const text = [
+          patientName(patient),
+          ward?.name,
+          ward?.ward_name,
+          bed?.bed_number,
+          admission.attending_doctor,
+          admission.status,
+          admission.admission_type
+        ].join(" ").toLowerCase();
+
+        return text.includes(search);
+      });
+
+      if (!rows.length) {
+        body.innerHTML =
+          '<tr><td colspan="7">No admission records found.</td></tr>';
+        return;
+      }
+
+      body.innerHTML = rows.map(admission => {
+        const patient = getPatient(admission.patient_id);
+        const ward = getWard(admission.ward_id);
+        const bed = beds.find(item =>
+          String(item.id) === String(admission.bed_id)
+        );
+
+        const active = admission.status === "Admitted";
+
+        return `
+          <tr>
+            <td>${escapeHTML(patientName(patient))}</td>
+            <td>${escapeHTML(ward?.name || ward?.ward_name || "Unknown")}</td>
+            <td>${escapeHTML(bed?.bed_number || "—")}</td>
+            <td>${escapeHTML(admission.admission_date || "—")}</td>
+            <td>${escapeHTML(admission.attending_doctor || "—")}</td>
+            <td><span class="badge ${active ? "occupied" : "discharged"}">
+              ${escapeHTML(admission.status || "Unknown")}</span></td>
+            <td>
+              ${active ? `
+                <button class="blue small-button"
+                  onclick="dischargePatient('${escapeHTML(admission.id)}')">
+                  Discharge
+                </button>` : "—"}
+            </td>
+          </tr>`;
+      }).join("");
+    }
+
+    $("wardForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      clearMessage();
+
+      const name = $("wardName").value.trim();
+      const wardType = $("wardType").value;
+      const capacity = Number($("wardCapacity").value);
+      const description = $("wardDescription").value.trim();
+
+      if (!name || !wardType ||
+          !Number.isInteger(capacity) || capacity < 1 || capacity > 500) {
+        showMessage("Enter a valid ward name, type, and bed capacity.", "error");
+        return;
+      }
+
+      const button = event.submitter;
+      button.disabled = true;
+
+      try {
+        const { data: ward, error: wardError } = await db
+          .from("wards")
+          .insert({
+            name,
+            ward_type: wardType,
+            capacity,
+            description
+          })
+          .select()
+          .single();
+
+        if (wardError) throw wardError;
+
+        const newBeds = Array.from({ length: capacity }, (_, index) => ({
+          ward_id: ward.id,
+          bed_number: "BED-" + String(index + 1).padStart(3, "0"),
+          status: "Available"
+        }));
+
+        const { error: bedsError } = await db.from("beds").insert(newBeds);
+
+        if (bedsError) {
+          showMessage(
+            "The ward was created, but its beds could not be created. " +
+            "Please check the database before trying again. " +
+            bedsError.message,
+            "error"
+          );
+          await loadData();
+          return;
+        }
+
+        $("wardForm").reset();
+        $("wardCapacity").value = 10;
+
+        await loadData();
+        showMessage("Ward and " + capacity + " beds created successfully.");
+      } catch (error) {
+        showMessage("Could not save ward: " + error.message, "error");
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    $("admissionWard").addEventListener("change", renderBedOptions);
+
+    $("admissionForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      clearMessage();
+
+      const patientId = $("patientId").value;
+      const wardId = $("admissionWard").value;
+      const bedId = $("admissionBed").value;
+      const admissionDate = $("admissionDate").value;
+      const attendingDoctor = $("attendingDoctor").value.trim();
+      const admissionType = $("admissionType").value;
+      const notes = $("admissionNotes").value.trim();
+
+      if (!patientId || !wardId || !bedId ||
+          !admissionDate || !admissionType) {
+        showMessage("Please complete all required admission fields.", "error");
+        return;
+      }
+
+      const selectedBed = beds.find(bed =>
+        String(bed.id) === String(bedId)
+      );
+
+      if (!selectedBed ||
+          String(selectedBed.ward_id) !== String(wardId) ||
+          selectedBed.status !== "Available") {
+        showMessage(
+          "This bed is no longer available. Refresh and choose another bed.",
+          "error"
+        );
+        return;
+      }
+
+      const button = event.submitter;
+      button.disabled = true;
+
+      try {
+        const { data: admission, error: admissionError } = await db
+          .from("admissions")
+          .insert({
+            patient_id: patientId,
+            ward_id: wardId,
+            bed_id: bedId,
+            admission_date: admissionDate,
+            attending_doctor: attendingDoctor || null,
+            admission_type: admissionType,
+            notes: notes || null,
+            status: "Admitted"
+          })
+          .select()
+          .single();
+
+        if (admissionError) throw admissionError;
+
+        const { data: updatedBed, error: bedError } = await db
+          .from("beds")
+          .update({ status: "Occupied" })
+          .eq("id", bedId)
+          .eq("status", "Available")
+          .select("id");
+
+        if (bedError || !updatedBed || updatedBed.length !== 1) {
+          await db.from("admissions")
+            .delete()
+            .eq("id", admission.id);
+
+          throw new Error(
+            bedError?.message ||
+            "The bed was just assigned elsewhere. Please select another bed."
+          );
+        }
+
+        $("admissionForm").reset();
+        $("admissionDate").value =
+          new Date().toLocaleDateString("en-CA");
+
+        await loadData();
+        showMessage("Patient admission saved successfully.");
+      } catch (error) {
+        showMessage("Could not admit patient: " + error.message, "error");
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    async function dischargePatient(admissionId) {
+      const confirmed = confirm(
+        "Confirm that the authorized discharge process is complete. " +
+        "Discharge this patient and release the assigned bed?"
+      );
+
+      if (!confirmed) return;
+
+      clearMessage();
+
+      try {
+        const admission = admissions.find(item =>
+          String(item.id) === String(admissionId)
+        );
+
+        if (!admission || admission.status !== "Admitted") {
+          throw new Error("This admission is not currently active.");
+        }
+
+        const { data: changed, error: updateError } = await db
+          .from("admissions")
+          .update({
+            status: "Discharged",
+            discharge_date: new Date().toISOString().slice(0, 10)
+          })
+          .eq("id", admissionId)
+          .eq("status", "Admitted")
+          .select("id");
+
+        if (updateError) throw updateError;
+
+        if (!changed || changed.length !== 1) {
+          throw new Error("Admission status changed. Refresh and try again.");
+        }
+
+        const { error: bedError } = await db
+          .from("beds")
+          .update({ status: "Available" })
+          .eq("id", admission.bed_id)
+          .eq("status", "Occupied");
+
+        if (bedError) {
+          showMessage(
+            "The patient was marked discharged, but the bed could not " +
+            "be released. Please ask an administrator to reconcile it. " +
+            bedError.message,
+            "error"
+          );
+          await loadData();
+          return;
+        }
+
+        await loadData();
+        showMessage("Discharge recorded and bed released.");
+      } catch (error) {
+        showMessage("Could not discharge patient: " + error.message, "error");
+      }
+    }
+
+    window.dischargePatient = dischargePatient;
+
+    $("wardSearch").addEventListener("input", renderBeds);
+    $("admissionSearch").addEventListener("input", renderAdmissions);
+
+    $("logoutButton").addEventListener("click", async () => {
+      const { error } = await db.auth.signOut();
+
+      if (error) {
+        showMessage("Could not log out: " + error.message, "error");
+        return;
+      }
+
+      location.href = "login.html";
+    });
+
+    async function initialize() {
+      try {
+        db = getClient();
+
+        const isAdmin = await checkAdmin();
+        if (!isAdmin) return;
+
+        $("admissionDate").value =
+          new Date().toLocaleDateString("en-CA");
+
+        await loadData();
+      } catch (error) {
+        showMessage(
+          "The page could not load its database records. " +
+          error.message +
+          " We may need to configure the database tables or check " +
+          "your existing Supabase setup.",
+          "error"
+        );
+      }
+    }
+
+    initialize();
+  </script>
+</body>
+</html>
