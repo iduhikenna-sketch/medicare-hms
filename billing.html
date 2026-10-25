@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Billing & Payments | MediCare HMS</title>
+
+  <style>
+    :root {
+      --navy: #102b46;
+      --blue: #1769aa;
+      --light: #f2f6fb;
+      --gold: #e6b84b;
+      --green: #16845b;
+      --red: #c0392b;
+      --border: #dce5ef;
+      --text: #24364b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--light);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    header h1 { margin: 0; font-size: 22px; }
+    header p { margin: 6px 0 0; color: #d6e4f2; font-size: 13px; }
+
+    button, .button {
+      border: 0;
+      border-radius: 7px;
+      padding: 11px 15px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 13px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    button:disabled { opacity: .6; cursor: wait; }
+
+    .gold { background: var(--gold); color: var(--navy); }
+    .blue { background: var(--blue); color: white; }
+    .light-button { background: white; color: var(--navy); }
+
+    main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px 35px;
+    }
+
+    .notice {
+      background: #e7f2ff;
+      border-left: 4px solid var(--blue);
+      padding: 13px;
+      border-radius: 5px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .message.success { display: block; background: #e6f7ef; color: #116442; }
+    .message.error { display: block; background: #fdecea; color: #9f271d; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .stat, .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      box-shadow: 0 3px 12px rgba(16,43,70,.04);
+    }
+
+    .stat { padding: 18px; }
+    .stat span { display: block; color: #61748a; font-size: 13px; }
+    .stat strong {
+      display: block;
+      font-size: 25px;
+      margin-top: 8px;
+      color: var(--navy);
+      overflow-wrap: anywhere;
+    }
+
+    .panel { padding: 20px; margin-bottom: 20px; }
+    .panel h2 { margin: 0 0 17px; font-size: 19px; color: var(--navy); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #ccd8e5;
+      border-radius: 6px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    textarea { resize: vertical; min-height: 75px; }
+    .full { grid-column: 1 / -1; }
+    .form-actions { margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .section-heading h2 { margin: 0; }
+    .search { max-width: 320px; }
+    .table-wrap { overflow-x: auto; width: 100%; }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 850px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    th { background: #f5f8fc; color: var(--navy); }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 20px;
+      background: #e6f7ef;
+      color: #116442;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .badge.partial { background: #fff0d1; color: #855b00; }
+    .badge.unpaid { background: #fdecea; color: #9f271d; }
+    .small-button { padding: 7px 9px; margin: 2px; font-size: 12px; }
+
+    .muted { color: #6b7d90; font-size: 13px; line-height: 1.6; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #6b7d90;
+      font-size: 12px;
+    }
+
+    @media (max-width: 800px) {
+      .stats, .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 520px) {
+      header { padding: 16px; }
+      header h1 { font-size: 19px; }
+      .stats, .form-grid { grid-template-columns: 1fr; }
+      .full { grid-column: auto; }
+      .panel { padding: 15px; }
+      .search { max-width: none; width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div>
+    <h1>💳 MediCare — Billing & Payments</h1>
+    <p>Manage patient invoices, payments, and outstanding balances</p>
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <a class="button light-button" href="admin-dashboard.html">← Dashboard</a>
+    <button class="gold" id="logoutButton" type="button">Log Out</button>
+  </div>
+</header>
+
+<main>
+  <div id="message" class="message" role="status" aria-live="polite"></div>
+
+  <div class="notice">
+    <strong>Billing notice:</strong>
+    This module records bills and payment entries. Only record money actually
+    received and verified. Do not enter real patient financial information into
+    a demonstration system until access controls and operational procedures
+    have been reviewed.
+  </div>
+
+  <section class="stats">
+    <div class="stat"><span>Total Bills</span><strong id="totalBills">—</strong></div>
+    <div class="stat"><span>Total Billed</span><strong id="totalBilled">—</strong></div>
+    <div class="stat"><span>Total Received</span><strong id="totalReceived">—</strong></div>
+    <div class="stat"><span>Outstanding</span><strong id="totalOutstanding">—</strong></div>
+  </section>
+
+  <section class="panel">
+    <h2>➕ Create Patient Bill</h2>
+
+    <form id="billForm">
+      <div class="form-grid">
+        <div>
+          <label for="patientId">Registered Patient *</label>
+          <select id="patientId" required>
+            <option value="">Loading patients...</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="billDate">Bill Date *</label>
+          <input id="billDate" type="date" required>
+        </div>
+
+        <div>
+          <label for="service">Service / Description *</label>
+          <input id="service" maxlength="200" required placeholder="e.g. Consultation">
+        </div>
+
+        <div>
+          <label for="amount">Bill Amount (₦) *</label>
+          <input id="amount" type="number" min="0.01" max="1000000000"
+            step="0.01" required placeholder="e.g. 5000">
+        </div>
+
+        <div>
+          <label for="dueDate">Due Date (optional)</label>
+          <input id="dueDate" type="date">
+        </div>
+
+        <div>
+          <label for="notes">Notes (optional)</label>
+          <input id="notes" maxlength="500" placeholder="Additional details">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="blue" type="submit">Create Bill</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>💰 Record a Payment</h2>
+
+    <form id="paymentForm">
+      <div class="form-grid">
+        <div>
+          <label for="paymentBill">Patient Bill *</label>
+          <select id="paymentBill" required>
+            <option value="">Select bill</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="paymentAmount">Payment Amount (₦) *</label>
+          <input id="paymentAmount" type="number" min="0.01"
+            max="1000000000" step="0.01" required placeholder="e.g. 2000">
+        </div>
+
+        <div>
+          <label for="paymentDate">Payment Date *</label>
+          <input id="paymentDate" type="date" required>
+        </div>
+
+        <div>
+          <label for="paymentMethod">Payment Method *</label>
+          <select id="paymentMethod" required>
+            <option value="">Select method</option>
+            <option>Cash</option>
+            <option>Bank Transfer</option>
+            <option>Card</option>
+            <option>Online Payment</option>
+            <option>Insurance</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="reference">Reference (optional)</label>
+          <input id="reference" maxlength="150" placeholder="Receipt or transaction reference">
+        </div>
+
+        <div>
+          <label for="paymentNotes">Payment Notes (optional)</label>
+          <input id="paymentNotes" maxlength="500" placeholder="Additional details">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="blue" type="submit">Record Payment</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading">
+      <h2>📋 Patient Bills</h2>
+      <input id="billSearch" class="search" placeholder="Search bills...">
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Bill No.</th>
+            <th>Patient</th>
+            <th>Service</th>
+            <th>Bill Date</th>
+            <th>Amount (₦)</th>
+            <th>Paid (₦)</th>
+            <th>Balance (₦)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="billsTable">
+          <tr><td colspan="8">Loading bills...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading">
+      <h2>🧾 Payment History</h2>
+      <input id="paymentSearch" class="search" placeholder="Search payments...">
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Payment Date</th>
+            <th>Bill No.</th>
+            <th>Patient</th>
+            <th>Amount (₦)</th>
+            <th>Method</th>
+            <th>Reference</th>
+          </tr>
+        </thead>
+        <tbody id="paymentsTable">
+          <tr><td colspan="6">Loading payments...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>MediCare Hospital Management System · Billing & Payments</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+"use strict";
+
+let db;
+let patients = [];
+let bills = [];
+let payments = [];
+
+const $ = id => document.getElementById(id);
+
+function localDateString(date = new Date()) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
+  })[ch]);
+}
+
+function showMessage(message, type = "success") {
+  const box = $("message");
+  box.textContent = message;
+  box.className = "message " + type;
+  box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function clearMessage() {
+  $("message").textContent = "";
+  $("message").className = "message";
+}
+
+function getClient() {
+  if (window.medicareSupabase &&
+      typeof window.medicareSupabase.from === "function") {
+    return window.medicareSupabase;
+  }
+
+  throw new Error(
+    "MediCare Supabase client not found. Check supabase-config.js."
+  );
+}
+
+async function checkAdmin() {
+  const { data, error } = await db.auth.getSession();
+  if (error) throw error;
+
+  if (!data.session) {
+    location.href = "login.html";
+    return false;
+  }
+
+  if (data.session.user.app_metadata?.role !== "admin") {
+    document.body.innerHTML = `
+      <main style="max-width:650px;margin:60px auto;padding:20px">
+        <h2>Administrator access required</h2>
+        <p>Your account does not have the administrator role in Supabase App Metadata.</p>
+        <a href="admin-dashboard.html">Return to dashboard</a>
+      </main>`;
+    return false;
+  }
+
+  return true;
+}
+
+function patientName(patient) {
+  if (!patient) return "Unknown patient";
+
+  return [patient.first_name, patient.last_name].filter(Boolean).join(" ")
+    || "Patient #" + patient.id;
+}
+
+function getPatient(id) {
+  return patients.find(p => String(p.id) === String(id));
+}
+
+function getBill(id) {
+  return bills.find(b => String(b.id) === String(id));
+}
+
+function money(value) {
+  return "₦" + Number(value || 0).toLocaleString("en-NG", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function paidAmount(billId) {
+  return payments
+    .filter(p => String(p.bill_id) === String(billId))
+    .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+}
+
+function balanceAmount(bill) {
+  return Math.max(0, Number(bill.amount || 0) - paidAmount(bill.id));
+}
+
+function billStatus(bill) {
+  const paid = paidAmount(bill.id);
+  const amount = Number(bill.amount || 0);
+
+  if (paid >= amount) return "Paid";
+  if (paid > 0) return "Partially Paid";
+  return "Unpaid";
+}
+
+async function loadData() {
+  const results = await Promise.all([
+    db.from("patients").select("*").order("created_at", { ascending: false }),
+    db.from("bills").select("*").order("created_at", { ascending: false }),
+    db.from("payments").select("*").order("created_at", { ascending: false })
+  ]);
+
+  const labels = ["patients", "bills", "payments"];
+  const errors = results.map((result, i) =>
+    result.error ? labels[i] + ": " + result.error.message : null
+  ).filter(Boolean);
+
+  if (errors.length) {
+    throw new Error(errors.join(" | "));
+  }
+
+  patients = results[0].data || [];
+  bills = results[1].data || [];
+  payments = results[2].data || [];
+
+  renderStats();
+  renderPatients();
+  renderBillOptions();
+  renderBills();
+  renderPayments();
+}
+
+function renderStats() {
+  $("totalBills").textContent = bills.length;
+
+  $("totalBilled").textContent = money(
+    bills.reduce((sum, bill) => sum + Number(bill.amount || 0), 0)
+  );
+
+  $("totalReceived").textContent = money(
+    payments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0)
+  );
+
+  $("totalOutstanding").textContent = money(
+    bills.reduce((sum, bill) => sum + balanceAmount(bill), 0)
+  );
+}
+
+function renderPatients() {
+  const select = $("patientId");
+  const current = select.value;
+
+  select.innerHTML = '<option value="">Select registered patient</option>' +
+    patients.map(p => `
+      <option value="${escapeHTML(p.id)}">
+        ${escapeHTML(patientName(p))}${
+          p.patient_number ? " — " + escapeHTML(p.patient_number) : ""
+        }
+      </option>
+    `).join("");
+
+  if (patients.some(p => String(p.id) === current)) {
+    select.value = current;
+  }
+}
+
+function renderBillOptions() {
+  const select = $("paymentBill");
+  const current = select.value;
+
+  select.innerHTML = '<option value="">Select outstanding bill</option>' +
+    bills.filter(b => balanceAmount(b) > 0).map(b => {
+      const patient = getPatient(b.patient_id);
+
+      return `<option value="${escapeHTML(b.id)}">
+        ${escapeHTML(b.bill_number || "Bill")} — ${
+          escapeHTML(patientName(patient))
+        } — Balance ${escapeHTML(money(balanceAmount(b)))}
+      </option>`;
+    }).join("");
+
+  if (bills.some(b =>
+      String(b.id) === current && balanceAmount(b) > 0)) {
+    select.value = current;
+  }
+}
+
+function renderBills() {
+  const search = $("billSearch").value.toLowerCase().trim();
+
+  const filtered = bills.filter(bill => {
+    const patient = getPatient(bill.patient_id);
+
+    return [
+      bill.bill_number,
+      patientName(patient),
+      bill.service,
+      bill.bill_date,
+      bill.status
+    ].join(" ").toLowerCase().includes(search);
+  });
+
+  $("billsTable").innerHTML = filtered.length ? filtered.map(bill => {
+    const patient = getPatient(bill.patient_id);
+    const paid = paidAmount(bill.id);
+    const balance = balanceAmount(bill);
+    const status = billStatus(bill);
+    const badgeClass = status === "Paid" ? "" :
+      status === "Partially Paid" ? "partial" : "unpaid";
+
+    return `<tr>
+      <td>${escapeHTML(bill.bill_number || "—")}</td>
+      <td>${escapeHTML(patientName(patient))}</td>
+      <td>${escapeHTML(bill.service || "—")}</td>
+      <td>${escapeHTML(bill.bill_date || "—")}</td>
+      <td>${escapeHTML(money(bill.amount))}</td>
+      <td>${escapeHTML(money(paid))}</td>
+      <td>${escapeHTML(money(balance))}</td>
+      <td><span class="badge ${badgeClass}">${escapeHTML(status)}</span></td>
+    </tr>`;
+  }).join("") : '<tr><td colspan="8">No bills found.</td></tr>';
+}
+
+function renderPayments() {
+  const search = $("paymentSearch").value.toLowerCase().trim();
+
+  const filtered = payments.filter(payment => {
+    const bill = getBill(payment.bill_id);
+    const patient = bill ? getPatient(bill.patient_id) : null;
+
+    return [
+      payment.payment_date,
+      bill?.bill_number,
+      patientName(patient),
+      payment.amount,
+      payment.method,
+      payment.reference
+    ].join(" ").toLowerCase().includes(search);
+  });
+
+  $("paymentsTable").innerHTML = filtered.length ? filtered.map(payment => {
+    const bill = getBill(payment.bill_id);
+    const patient = bill ? getPatient(bill.patient_id) : null;
+
+    return `<tr>
+      <td>${escapeHTML(payment.payment_date || "—")}</td>
+      <td>${escapeHTML(bill?.bill_number || "—")}</td>
+      <td>${escapeHTML(patientName(patient))}</td>
+      <td>${escapeHTML(money(payment.amount))}</td>
+      <td>${escapeHTML(payment.method || "—")}</td>
+      <td>${escapeHTML(payment.reference || "—")}</td>
+    </tr>`;
+  }).join("") : '<tr><td colspan="6">No payments recorded.</td></tr>';
+}
+
+$("billForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  clearMessage();
+
+  const button = event.submitter;
+  const patient_id = $("patientId").value;
+  const bill_date = $("billDate").value;
+  const service = $("service").value.trim();
+  const amount = Number($("amount").value);
+  const due_date = $("dueDate").value || null;
+  const notes = $("notes").value.trim() || null;
+
+  if (!getPatient(patient_id) || !bill_date || !service ||
+      !Number.isFinite(amount) || amount <= 0) {
+    showMessage("Please enter a valid patient, date, service, and positive amount.", "error");
+    return;
+  }
+
+  button.disabled = true;
+
+  try {
+    const bill_number = "MCH-BILL-" +
+      localDateString().replaceAll("-", "") + "-" +
+      crypto.randomUUID().replaceAll("-", "").slice(0, 8).toUpperCase();
+
+    const { error } = await db.from("bills").insert({
+      bill_number,
+      patient_id,
+      bill_date,
+      service,
+      amount,
+      due_date,
+      notes
+    });
+
+    if (error) throw error;
+
+    $("billForm").reset();
+    $("billDate").value = localDateString();
+
+    await loadData();
+    showMessage("Bill created successfully: " + bill_number);
+  } catch (error) {
+    showMessage("Could not create bill: " + error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
+
+$("paymentForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  clearMessage();
+
+  const button = event.submitter;
+  const bill_id = $("paymentBill").value;
+  const amount = Number($("paymentAmount").value);
+  const payment_date = $("paymentDate").value;
+  const method = $("paymentMethod").value;
+  const reference = $("reference").value.trim() || null;
+  const notes = $("paymentNotes").value.trim() || null;
+
+  const bill = getBill(bill_id);
+
+  if (!bill || !payment_date || !method ||
+      !Number.isFinite(amount) || amount <= 0) {
+    showMessage("Enter a valid bill, payment date, method, and positive amount.", "error");
+    return;
+  }
+
+  const balance = balanceAmount(bill);
+
+  if (amount > balance) {
+    showMessage("Payment exceeds the outstanding balance of " + money(balance) + ".", "error");
+    return;
+  }
+
+  if (!confirm(
+      "Confirm that this payment of " + money(amount) +
+      " has actually been received and verified?")) {
+    return;
+  }
+
+  button.disabled = true;
+
+  try {
+    const { error } = await db.from("payments").insert({
+      bill_id,
+      amount,
+      payment_date,
+      method,
+      reference,
+      notes
+    });
+
+    if (error) throw error;
+
+    $("paymentForm").reset();
+    $("paymentDate").value = localDateString();
+
+    await loadData();
+    showMessage("Payment recorded successfully.");
+  } catch (error) {
+    showMessage("Could not record payment: " + error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
+
+$("billSearch").addEventListener("input", renderBills);
+$("paymentSearch").addEventListener("input", renderPayments);
+
+$("logoutButton").addEventListener("click", async () => {
+  $("logoutButton").disabled = true;
+
+  try {
+    const { error } = await db.auth.signOut();
+    if (error) throw error;
+    location.href = "login.html";
+  } catch (error) {
+    showMessage("Could not log out: " + error.message, "error");
+    $("logoutButton").disabled = false;
+  }
+});
+
+async function initialize() {
+  $("billDate").value = localDateString();
+  $("paymentDate").value = localDateString();
+
+  try {
+    db = getClient();
+
+    const allowed = await checkAdmin();
+    if (!allowed) return;
+
+    await loadData();
+  } catch (error) {
+    showMessage(
+      "Billing could not load: " + error.message +
+      " The billing database tables may not exist yet.",
+      "error"
+    );
+  }
+}
+
+initialize();
+</script>
+</body>
+</html>
