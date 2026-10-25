@@ -107,7 +107,12 @@
 
     .stat { padding: 18px; }
     .stat span { display: block; color: #61748a; font-size: 13px; }
-    .stat strong { display: block; font-size: 27px; margin-top: 8px; color: var(--navy); }
+    .stat strong {
+      display: block;
+      font-size: 27px;
+      margin-top: 8px;
+      color: var(--navy);
+    }
 
     .panel { padding: 20px; margin-bottom: 20px; }
     .panel h2 { margin: 0 0 17px; font-size: 19px; color: var(--navy); }
@@ -118,7 +123,12 @@
       gap: 14px;
     }
 
-    label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
 
     input, select, textarea {
       width: 100%;
@@ -146,11 +156,21 @@
 
     .section-heading h2 { margin: 0; }
     .search { max-width: 320px; }
-
     .table-wrap { overflow-x: auto; width: 100%; }
 
-    table { border-collapse: collapse; width: 100%; min-width: 700px; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 850px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
     th { background: #f5f8fc; color: var(--navy); }
 
     .badge {
@@ -168,10 +188,17 @@
     .small-button { padding: 7px 9px; margin: 2px; font-size: 12px; }
     .muted { color: #6b7d90; font-size: 13px; line-height: 1.6; }
 
-    footer { text-align: center; padding: 20px; color: #6b7d90; font-size: 12px; }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #6b7d90;
+      font-size: 12px;
+    }
 
     @media (max-width: 800px) {
-      .stats, .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stats, .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 520px) {
@@ -191,6 +218,7 @@
     <h1>🏥 MediCare — Wards & Admissions</h1>
     <p>Manage hospital wards, beds, and patient admissions</p>
   </div>
+
   <div class="header-actions">
     <a class="button light-button" href="admin-dashboard.html">← Dashboard</a>
     <button class="gold" id="logoutButton" type="button">Log Out</button>
@@ -216,30 +244,41 @@
 
   <section class="panel">
     <h2>➕ Register a Ward</h2>
+
     <form id="wardForm">
       <div class="form-grid">
         <div>
           <label for="wardName">Ward Name *</label>
           <input id="wardName" required maxlength="100" placeholder="e.g. Medical Ward A">
         </div>
+
         <div>
           <label for="wardType">Ward Type *</label>
           <select id="wardType" required>
             <option value="">Select type</option>
-            <option>General</option><option>Medical</option><option>Surgical</option>
-            <option>Maternity</option><option>Pediatric</option><option>Intensive Care</option>
-            <option>Emergency</option><option>Private</option><option>Other</option>
+            <option>General</option>
+            <option>Medical</option>
+            <option>Surgical</option>
+            <option>Maternity</option>
+            <option>Pediatric</option>
+            <option>Intensive Care</option>
+            <option>Emergency</option>
+            <option>Private</option>
+            <option>Other</option>
           </select>
         </div>
+
         <div>
           <label for="wardCapacity">Number of Beds *</label>
           <input id="wardCapacity" type="number" required min="1" max="500" step="1" value="10">
         </div>
+
         <div class="field full">
           <label for="wardDescription">Description (optional)</label>
           <textarea id="wardDescription" maxlength="500" placeholder="Ward location or details"></textarea>
         </div>
       </div>
+
       <div class="form-actions">
         <button class="blue" type="submit">Save Ward & Create Beds</button>
       </div>
@@ -251,51 +290,75 @@
       <h2>🛏️ Ward & Bed Inventory</h2>
       <input class="search" id="wardSearch" placeholder="Search wards or beds...">
     </div>
+
     <p class="muted">Beds are created automatically when a ward is registered.</p>
+
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Ward</th><th>Type</th><th>Bed</th><th>Status</th><th>Action</th></tr></thead>
-        <tbody id="bedsTable"><tr><td colspan="5">Loading...</td></tr></tbody>
+        <thead>
+          <tr>
+            <th>Ward</th><th>Type</th><th>Bed</th><th>Status</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="bedsTable">
+          <tr><td colspan="5">Loading...</td></tr>
+        </tbody>
       </table>
     </div>
   </section>
 
   <section class="panel">
     <h2>➕ Admit a Patient</h2>
+
     <form id="admissionForm">
       <div class="form-grid">
         <div>
           <label for="patientId">Registered Patient *</label>
-          <select id="patientId" required><option value="">Loading patients...</option></select>
+          <select id="patientId" required>
+            <option value="">Loading patients...</option>
+          </select>
         </div>
+
         <div>
           <label for="admissionWard">Ward *</label>
-          <select id="admissionWard" required><option value="">Select ward</option></select>
+          <select id="admissionWard" required>
+            <option value="">Select ward</option>
+          </select>
         </div>
+
         <div>
           <label for="admissionBed">Available Bed *</label>
-          <select id="admissionBed" required><option value="">Select ward first</option></select>
+          <select id="admissionBed" required>
+            <option value="">Select ward first</option>
+          </select>
         </div>
+
         <div>
           <label for="admissionDate">Admission Date *</label>
           <input id="admissionDate" type="date" required>
         </div>
+
         <div>
           <label for="attendingDoctor">Attending Doctor</label>
           <input id="attendingDoctor" maxlength="150" placeholder="Doctor's name">
         </div>
+
         <div>
           <label for="admissionType">Admission Type *</label>
           <select id="admissionType" required>
             <option value="">Select type</option>
-            <option>Emergency</option><option>Planned</option><option>Transfer</option>
+            <option>Emergency</option>
+            <option>Planned</option>
+            <option>Transfer</option>
           </select>
         </div>
+
         <div class="field full">
           <label for="admissionNotes">Admission Notes</label>
           <textarea id="admissionNotes" maxlength="2000" placeholder="Relevant admission notes"></textarea>
         </div>
       </div>
+
       <div class="form-actions">
         <button class="blue" type="submit">Admit Patient</button>
       </div>
@@ -307,10 +370,25 @@
       <h2>📋 Admission Records</h2>
       <input class="search" id="admissionSearch" placeholder="Search admissions...">
     </div>
+
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Patient</th><th>Ward</th><th>Bed</th><th>Admission Date</th><th>Doctor</th><th>Status</th><th>Action</th></tr></thead>
-        <tbody id="admissionsTable"><tr><td colspan="7">Loading...</td></tr></tbody>
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Ward</th>
+            <th>Bed</th>
+            <th>Admission Date</th>
+            <th>Doctor</th>
+            <th>Admission Type</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="admissionsTable">
+          <tr><td colspan="8">Loading...</td></tr>
+        </tbody>
       </table>
     </div>
   </section>
@@ -353,7 +431,11 @@ function clearMessage() {
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, character => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
   })[character]);
 }
 
@@ -362,6 +444,7 @@ function getClient() {
       typeof window.medicareSupabase.from === "function") {
     return window.medicareSupabase;
   }
+
   throw new Error(
     "The shared MediCare Supabase client was not found. Check that " +
     "supabase-config.js loads after the Supabase library."
@@ -370,6 +453,7 @@ function getClient() {
 
 async function checkAdmin() {
   const { data, error } = await db.auth.getSession();
+
   if (error) throw error;
 
   if (!data.session) {
@@ -379,7 +463,6 @@ async function checkAdmin() {
 
   const user = data.session.user;
 
-  // Match the admin check used by the existing dashboard.
   if (user.app_metadata?.role !== "admin") {
     document.body.innerHTML = `
       <main style="max-width:650px;margin:60px auto;padding:20px">
@@ -404,6 +487,7 @@ function getPatient(id) {
 
 function patientName(patient) {
   if (!patient) return "Unknown patient";
+
   return [patient.first_name, patient.last_name].filter(Boolean).join(" ")
     || "Patient #" + patient.id;
 }
@@ -417,13 +501,12 @@ async function loadData() {
   ]);
 
   const labels = ["wards", "beds", "patients", "admissions"];
+
   const errors = results.map((r, i) =>
     r.error ? labels[i] + ": " + r.error.message : null
   ).filter(Boolean);
 
-  if (errors.length) {
-    throw new Error(errors.join(" | "));
-  }
+  if (errors.length) throw new Error(errors.join(" | "));
 
   wards = results[0].data || [];
   beds = results[1].data || [];
@@ -440,18 +523,25 @@ async function loadData() {
 function renderStats() {
   $("totalWards").textContent = wards.length;
   $("totalBeds").textContent = beds.length;
+
   $("availableBeds").textContent =
     beds.filter(b => b.status === "Available").length;
+
   $("activeAdmissions").textContent =
     admissions.filter(a => a.status === "Admitted").length;
 }
 
 function renderBeds() {
   const search = $("wardSearch").value.toLowerCase().trim();
+
   const rows = beds.filter(bed => {
     const ward = getWard(bed.ward_id);
+
     return [
-      ward?.name, ward?.ward_type, bed.bed_number, bed.status
+      ward?.name,
+      ward?.ward_type,
+      bed.bed_number,
+      bed.status
     ].join(" ").toLowerCase().includes(search);
   });
 
@@ -459,6 +549,7 @@ function renderBeds() {
     const ward = getWard(bed.ward_id);
     const status = bed.status || "Unknown";
     const available = status === "Available";
+
     return `<tr>
       <td>${escapeHTML(ward?.name || "Unknown ward")}</td>
       <td>${escapeHTML(ward?.ward_type || "—")}</td>
@@ -472,29 +563,37 @@ function renderBeds() {
 function renderPatients() {
   const select = $("patientId");
   const current = select.value;
+
   select.innerHTML = '<option value="">Select registered patient</option>' +
     patients.map(p => `<option value="${escapeHTML(p.id)}">${
       escapeHTML(patientName(p))
     }${p.patient_number ? " — " + escapeHTML(p.patient_number) : ""}</option>`).join("");
 
-  if (patients.some(p => String(p.id) === current)) select.value = current;
+  if (patients.some(p => String(p.id) === current)) {
+    select.value = current;
+  }
 }
 
 function renderWardOptions() {
   const select = $("admissionWard");
   const current = select.value;
+
   select.innerHTML = '<option value="">Select ward</option>' +
     wards.map(w => `<option value="${escapeHTML(w.id)}">${
       escapeHTML(w.name)
     } (${escapeHTML(w.ward_type)})</option>`).join("");
 
-  if (wards.some(w => String(w.id) === current)) select.value = current;
+  if (wards.some(w => String(w.id) === current)) {
+    select.value = current;
+  }
+
   renderBedOptions();
 }
 
 function renderBedOptions() {
   const wardId = $("admissionWard").value;
   const select = $("admissionBed");
+
   const available = beds.filter(b =>
     String(b.ward_id) === wardId && b.status === "Available"
   );
@@ -514,9 +613,15 @@ function renderAdmissions() {
     const patient = getPatient(a.patient_id);
     const ward = getWard(a.ward_id);
     const bed = beds.find(b => String(b.id) === String(a.bed_id));
+
     return [
-      patientName(patient), ward?.name, bed?.bed_number,
-      a.attending_doctor, a.status, a.admission_type
+      patientName(patient),
+      ward?.name,
+      bed?.bed_number,
+      a.attending_doctor,
+      a.admission_type,
+      a.status,
+      a.admission_date
     ].join(" ").toLowerCase().includes(search);
   });
 
@@ -532,13 +637,14 @@ function renderAdmissions() {
       <td>${escapeHTML(bed?.bed_number || "—")}</td>
       <td>${escapeHTML(a.admission_date || "—")}</td>
       <td>${escapeHTML(a.attending_doctor || "—")}</td>
+      <td>${escapeHTML(a.admission_type || "—")}</td>
       <td><span class="badge ${active ? "occupied" : "discharged"}">${
         escapeHTML(a.status || "Unknown")
       }</span></td>
       <td>${active ? `<button class="blue small-button"
         data-discharge="${escapeHTML(a.id)}" type="button">Discharge</button>` : "—"}</td>
     </tr>`;
-  }).join("") : '<tr><td colspan="7">No admission records found.</td></tr>';
+  }).join("") : '<tr><td colspan="8">No admission records found.</td></tr>';
 }
 
 $("wardForm").addEventListener("submit", async event => {
@@ -561,7 +667,10 @@ $("wardForm").addEventListener("submit", async event => {
 
   try {
     const { data: ward, error } = await db.from("wards").insert({
-      name, ward_type, capacity, description: description || null
+      name,
+      ward_type,
+      capacity,
+      description: description || null
     }).select().single();
 
     if (error) throw error;
@@ -586,6 +695,7 @@ $("wardForm").addEventListener("submit", async event => {
 
     $("wardForm").reset();
     $("wardCapacity").value = 10;
+
     await loadData();
     showMessage("Ward and " + capacity + " beds created successfully.");
   } catch (error) {
@@ -631,13 +741,14 @@ $("admissionForm").addEventListener("submit", async event => {
   }
 
   button.disabled = true;
-
   let createdAdmissionId = null;
 
   try {
-    // Recheck the selected bed on the server immediately before admission.
     const { data: currentBed, error: checkError } = await db
-      .from("beds").select("id,status,ward_id").eq("id", bed_id).single();
+      .from("beds")
+      .select("id,status,ward_id")
+      .eq("id", bed_id)
+      .single();
 
     if (checkError) throw checkError;
 
@@ -649,13 +760,20 @@ $("admissionForm").addEventListener("submit", async event => {
     const { data: admission, error: admissionError } = await db
       .from("admissions")
       .insert({
-        patient_id, ward_id, bed_id, admission_date,
+        patient_id,
+        ward_id,
+        bed_id,
+        admission_date,
         attending_doctor: attending_doctor || null,
-        admission_type, notes: notes || null, status: "Admitted"
+        admission_type,
+        notes: notes || null,
+        status: "Admitted"
       })
-      .select().single();
+      .select()
+      .single();
 
     if (admissionError) throw admissionError;
+
     createdAdmissionId = admission.id;
 
     const { data: changedBed, error: updateError } = await db
@@ -677,8 +795,10 @@ $("admissionForm").addEventListener("submit", async event => {
     createdAdmissionId = null;
     $("admissionForm").reset();
     $("admissionDate").value = localDateString();
+
     await loadData();
-    showMessage("Admission saved. Please verify the patient and bed in the records.");
+
+    showMessage("Admission saved. Please verify the patient, admission type, and bed in the records.");
   } catch (error) {
     showMessage(
       "Admission could not be fully completed: " + error.message +
@@ -687,6 +807,7 @@ $("admissionForm").addEventListener("submit", async event => {
         : ""),
       "error"
     );
+
     try { await loadData(); } catch (_) {}
   } finally {
     button.disabled = false;
@@ -720,6 +841,7 @@ async function dischargePatient(admissionId) {
       .select("id");
 
     if (error) throw error;
+
     if (!changed || changed.length !== 1) {
       throw new Error("Admission status changed. Refresh and check the record.");
     }
@@ -737,6 +859,7 @@ async function dischargePatient(admissionId) {
         (bedError?.message || ""),
         "error"
       );
+
       await loadData();
       return;
     }
@@ -774,6 +897,7 @@ async function initialize() {
 
   try {
     db = getClient();
+
     const allowed = await checkAdmin();
     if (!allowed) return;
 
