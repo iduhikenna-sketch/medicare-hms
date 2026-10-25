@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <meta name="robots" content="noindex, nofollow">
 
   <title>Admin Dashboard | MediCare HMS</title>
@@ -48,13 +47,11 @@
       font-size: 13px;
     }
 
-    button,
-    input {
+    button, input {
       font: inherit;
     }
 
-    button,
-    a {
+    button, a {
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -326,7 +323,7 @@
       padding: 0 15px;
     }
 
-    /* STATISTICS */
+    /* SECTION HEADINGS */
 
     .section-title {
       display: flex;
@@ -346,6 +343,8 @@
       font-size: 11px;
       margin-top: 4px;
     }
+
+    /* STATISTICS */
 
     .stats-grid {
       display: grid;
@@ -419,7 +418,7 @@
       margin-top: 7px;
     }
 
-    /* MODULES */
+    /* MODULE CARDS */
 
     .modules-grid {
       display: grid;
@@ -466,9 +465,12 @@
     }
 
     .module-link {
+      display: inline-flex;
+      align-items: center;
       color: var(--blue);
       font-size: 11px;
       font-weight: 600;
+      padding: 5px 0;
     }
 
     .module-link i {
@@ -581,10 +583,6 @@
     }
 
     @media (max-width: 850px) {
-      :root {
-        --sidebar-width: 255px;
-      }
-
       .sidebar {
         transform: translateX(-100%);
       }
@@ -662,7 +660,6 @@
 </head>
 
 <body>
-
   <div class="layout">
 
     <aside class="sidebar" id="sidebar">
@@ -697,7 +694,7 @@
           Appointments
         </a>
 
-        <a href="doctors.html" class="nav-item">
+        <a href="staff.html" class="nav-item">
           <i class="fa-solid fa-user-doctor"></i>
           Doctors &amp; Staff
         </a>
@@ -843,7 +840,7 @@
               </div>
 
               <div class="stat-value">—</div>
-              <div class="stat-foot">Appointment module not connected yet</div>
+              <div class="stat-foot">Appointment count not connected yet</div>
             </article>
 
             <article class="stat-card">
@@ -856,7 +853,7 @@
               </div>
 
               <div class="stat-value">—</div>
-              <div class="stat-foot">Staff module not connected yet</div>
+              <div class="stat-foot">Staff count not connected yet</div>
             </article>
 
             <article class="stat-card">
@@ -869,7 +866,7 @@
               </div>
 
               <div class="stat-value">—</div>
-              <div class="stat-foot">Billing module not connected yet</div>
+              <div class="stat-foot">Billing count not connected yet</div>
             </article>
 
           </div>
@@ -881,11 +878,13 @@
           <div class="section-title">
             <div>
               <h2>Hospital Management Modules</h2>
-              <p>Access the different hospital departments.</p>
+              <p>Open the available hospital departments.</p>
             </div>
           </div>
 
           <div class="modules-grid">
+
+            <!-- PATIENTS -->
 
             <article class="module-card">
               <div class="module-icon icon-blue">
@@ -904,6 +903,8 @@
               </a>
             </article>
 
+            <!-- APPOINTMENTS -->
+
             <article class="module-card">
               <div class="module-icon icon-green">
                 <i class="fa-solid fa-calendar-check"></i>
@@ -916,8 +917,13 @@
                 appointment status.
               </p>
 
-              <span class="coming-soon">NEXT MODULE</span>
+              <a class="module-link" href="appointments.html">
+                Open Appointments
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
             </article>
+
+            <!-- STAFF -->
 
             <article class="module-card">
               <div class="module-icon icon-purple">
@@ -931,8 +937,13 @@
                 professional information.
               </p>
 
-              <span class="coming-soon">NEXT MODULE</span>
+              <a class="module-link" href="staff.html">
+                Open Staff
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
             </article>
+
+            <!-- PHARMACY -->
 
             <article class="module-card">
               <div class="module-icon icon-orange">
@@ -942,12 +953,17 @@
               <h3>Pharmacy</h3>
 
               <p>
-                Prepare the system for medicine inventory and dispensing
-                records.
+                Access the pharmacy page to manage medicine inventory
+                and dispensing records.
               </p>
 
-              <span class="coming-soon">NEXT MODULE</span>
+              <a class="module-link" href="pharmacy.html">
+                Open Pharmacy
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
             </article>
+
+            <!-- LABORATORY -->
 
             <article class="module-card">
               <div class="module-icon icon-blue">
@@ -957,12 +973,17 @@
               <h3>Laboratory</h3>
 
               <p>
-                Organise laboratory requests, test records, and authorised
+                Access laboratory requests, test records, and authorised
                 results.
               </p>
 
-              <span class="coming-soon">NEXT MODULE</span>
+              <a class="module-link" href="laboratory.html">
+                Open Laboratory
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
             </article>
+
+            <!-- WARDS -->
 
             <article class="module-card">
               <div class="module-icon icon-green">
@@ -972,12 +993,14 @@
               <h3>Wards &amp; Admissions</h3>
 
               <p>
-                Prepare inpatient admissions, ward assignments, and bed
-                management.
+                Manage inpatient admissions, ward assignments, and bed
+                management when this module is implemented.
               </p>
 
               <span class="coming-soon">NEXT MODULE</span>
             </article>
+
+            <!-- BILLING -->
 
             <article class="module-card">
               <div class="module-icon icon-purple">
@@ -987,12 +1010,14 @@
               <h3>Billing &amp; Payments</h3>
 
               <p>
-                Prepare billing records, invoices, payment tracking, and
-                financial summaries.
+                Manage billing records, invoices, payment tracking, and
+                financial summaries when implemented.
               </p>
 
               <span class="coming-soon">NEXT MODULE</span>
             </article>
+
+            <!-- REPORTS -->
 
             <article class="module-card">
               <div class="module-icon icon-orange">
@@ -1002,8 +1027,8 @@
               <h3>Reports &amp; Analytics</h3>
 
               <p>
-                Build hospital activity summaries using verified database
-                records.
+                View hospital activity summaries using verified database
+                records when this module is implemented.
               </p>
 
               <span class="coming-soon">NEXT MODULE</span>
@@ -1022,7 +1047,9 @@
 
             <div>
               <strong>Administrator session</strong>
-              <p id="sessionStatus">Verifying your administrator session...</p>
+              <p id="sessionStatus">
+                Verifying your administrator session...
+              </p>
             </div>
           </div>
 
@@ -1041,10 +1068,10 @@
             <span class="status-dot warning"></span>
 
             <div>
-              <strong>Other hospital modules</strong>
+              <strong>Remaining hospital modules</strong>
               <p>
-                Appointments, pharmacy, laboratory, billing, wards, and
-                staff management still need to be implemented.
+                Wards and admissions, billing and payments, and reports
+                still need their functionality implemented and tested.
               </p>
             </div>
           </div>
@@ -1146,7 +1173,9 @@
           return;
         }
 
-        adminEmail.textContent = data.user.email || "Administrator";
+        adminEmail.textContent =
+          data.user.email || "Administrator";
+
         sessionStatus.textContent =
           "Authenticated administrator account verified.";
 
@@ -1195,6 +1224,7 @@
 
     logoutButton.addEventListener("click", async function () {
       logoutButton.disabled = true;
+
       logoutButton.innerHTML =
         '<i class="fa-solid fa-spinner fa-spin"></i> Signing out...';
 
@@ -1207,7 +1237,8 @@
           return;
         }
 
-        const { error } = await medicareSupabase.auth.signOut();
+        const { error } =
+          await medicareSupabase.auth.signOut();
 
         if (error) {
           throw error;
@@ -1224,6 +1255,7 @@
         );
 
         logoutButton.disabled = false;
+
         logoutButton.innerHTML =
           '<i class="fa-solid fa-right-from-bracket"></i> Sign Out';
       }
