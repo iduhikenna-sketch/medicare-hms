@@ -7,15 +7,8 @@
 
   <title>Admin Dashboard | MediCare HMS</title>
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <style>
     :root {
@@ -477,17 +470,6 @@
       margin-left: 5px;
     }
 
-    .coming-soon {
-      display: inline-block;
-      margin-top: 3px;
-      color: #8a6a25;
-      background: #fff5d9;
-      border-radius: 5px;
-      padding: 4px 7px;
-      font-size: 9px;
-      font-weight: 600;
-    }
-
     /* STATUS AND NOTICES */
 
     .status-panel {
@@ -721,7 +703,7 @@
 
         <a href="reports.html" class="nav-item">
           <i class="fa-solid fa-chart-line"></i>
-          Reports
+          Reports &amp; Analytics
         </a>
 
       </nav>
@@ -820,7 +802,6 @@
             <article class="stat-card">
               <div class="stat-top">
                 <span class="stat-label">Registered Patients</span>
-
                 <span class="stat-icon icon-blue">
                   <i class="fa-solid fa-hospital-user"></i>
                 </span>
@@ -833,7 +814,6 @@
             <article class="stat-card">
               <div class="stat-top">
                 <span class="stat-label">Appointments</span>
-
                 <span class="stat-icon icon-green">
                   <i class="fa-solid fa-calendar-check"></i>
                 </span>
@@ -846,7 +826,6 @@
             <article class="stat-card">
               <div class="stat-top">
                 <span class="stat-label">Doctors &amp; Staff</span>
-
                 <span class="stat-icon icon-purple">
                   <i class="fa-solid fa-user-doctor"></i>
                 </span>
@@ -859,7 +838,6 @@
             <article class="stat-card">
               <div class="stat-top">
                 <span class="stat-label">Pending Payments</span>
-
                 <span class="stat-icon icon-orange">
                   <i class="fa-solid fa-file-invoice-dollar"></i>
                 </span>
@@ -983,7 +961,7 @@
               </a>
             </article>
 
-            <!-- WARDS & ADMISSIONS: IMPLEMENTED -->
+            <!-- WARDS & ADMISSIONS -->
 
             <article class="module-card">
               <div class="module-icon icon-green">
@@ -1003,7 +981,7 @@
               </a>
             </article>
 
-            <!-- BILLING -->
+            <!-- BILLING & PAYMENTS: LINKED -->
 
             <article class="module-card">
               <div class="module-icon icon-purple">
@@ -1013,14 +991,17 @@
               <h3>Billing &amp; Payments</h3>
 
               <p>
-                Manage billing records, invoices, payment tracking, and
-                financial summaries when implemented.
+                Manage billing records, invoices, payment tracking,
+                and financial summaries.
               </p>
 
-              <span class="coming-soon">NEXT MODULE</span>
+              <a class="module-link" href="billing.html">
+                Open Billing &amp; Payments
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
             </article>
 
-            <!-- REPORTS -->
+            <!-- REPORTS & ANALYTICS: LINKED -->
 
             <article class="module-card">
               <div class="module-icon icon-orange">
@@ -1030,11 +1011,14 @@
               <h3>Reports &amp; Analytics</h3>
 
               <p>
-                View hospital activity summaries using verified database
-                records when this module is implemented.
+                View hospital activity summaries and access hospital
+                reports and analytics.
               </p>
 
-              <span class="coming-soon">NEXT MODULE</span>
+              <a class="module-link" href="reports.html">
+                Open Reports &amp; Analytics
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
             </article>
 
           </div>
@@ -1068,13 +1052,14 @@
           </div>
 
           <div class="status-row">
-            <span class="status-dot warning"></span>
+            <span class="status-dot"></span>
 
             <div>
-              <strong>Remaining hospital modules</strong>
+              <strong>Hospital module navigation</strong>
               <p>
-                Billing and payments, and reports still need their
-                functionality implemented and tested.
+                Billing &amp; Payments and Reports &amp; Analytics are linked
+                from the dashboard. Their individual features still need
+                to be tested.
               </p>
             </div>
           </div>
